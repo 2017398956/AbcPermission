@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * Created by nfl on 2017/11/30.
  */
-@Retention(RetentionPolicy.CLASS)
+@Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.METHOD)
 public @interface GetPermissions {
     String[] value() ;
