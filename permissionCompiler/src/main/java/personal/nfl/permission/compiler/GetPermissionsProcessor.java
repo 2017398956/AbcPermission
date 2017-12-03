@@ -189,6 +189,14 @@ public class GetPermissionsProcessor extends AbstractProcessor {
         builder.append(" aroundExe(ProceedingJoinPoint proceedingJoinPoint){\n");
         builder.append(" Log.i(\"NFL\", \"in GetPermissions exe\");\n");
         ///////////////////////////////////////////////////////////////////////////////////////////
+        builder.append("if(android.os.Build.VERSION.SDK_INT < 14){\n");
+        builder.append("try {\n");
+        builder.append("return " + ("void".equals(returnType) ? "" : "(" + returnType + ") ") + "proceedingJoinPoint.proceed() ;\n");
+        builder.append("} catch (Throwable throwable) {\n");
+        builder.append("AbcPermission.permissionListener.exeException(throwable);\n");
+        builder.append("return null ;\n");
+        builder.append("}\n");
+        builder.append("}\n");
         builder.append("List<String> permissionList = new ArrayList<>();\n");
         builder.append("for (String permission : permissions) {\n");
         builder.append("if (ContextCompat.checkSelfPermission(activity , permission) != PackageManager.PERMISSION_GRANTED) {\n");

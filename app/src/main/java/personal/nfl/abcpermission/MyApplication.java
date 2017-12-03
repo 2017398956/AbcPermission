@@ -60,5 +60,16 @@ public class MyApplication extends Application {
 
             }
         });
+        AbcPermission.permissionListener = new AbcPermission.GetPermissionListener(){
+            @Override
+            public void cannotRequestAgain(Activity activity, String[] permissions) {
+                super.cannotRequestAgain(activity, permissions);
+            }
+
+            @Override
+            public void exeException(Throwable throwable) {
+                super.exeException(throwable);
+            }
+        } ;
     }
 }
