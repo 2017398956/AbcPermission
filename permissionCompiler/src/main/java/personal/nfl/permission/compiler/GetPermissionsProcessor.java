@@ -186,7 +186,7 @@ public class GetPermissionsProcessor extends AbstractProcessor {
         } else {
             builder.append(returnType);
         }
-        builder.append(" aroundExe(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {\n");
+        builder.append(" aroundExe(ProceedingJoinPoint proceedingJoinPoint){\n");
         builder.append(" Log.i(\"NFL\", \"in GetPermissions exe\");\n");
         ///////////////////////////////////////////////////////////////////////////////////////////
         builder.append("List<String> permissionList = new ArrayList<>();\n");
@@ -196,13 +196,22 @@ public class GetPermissionsProcessor extends AbstractProcessor {
         builder.append("if (permissionList.size() == 0) {\n");
         // exe annotation method
         if ("void".equals(returnType)) {
+            builder.append("try {\n");
             builder.append("proceedingJoinPoint.proceed();\n");
+            builder.append("} catch (Throwable throwable) {\n");
+            builder.append("AbcPermission.permissionListener.exeException(throwable);\n");
+            builder.append("}\n");
             builder.append("return null ;\n");
         } else {
+            builder.append("try {\n");
             builder.append(returnType);
             builder.append(" result = (" + returnType +
                     ") proceedingJoinPoint.proceed();\n");
             builder.append("return result;\n");
+            builder.append("} catch (Throwable throwable) {\n");
+            builder.append("AbcPermission.permissionListener.exeException(throwable);\n");
+            builder.append("return null ;\n");
+            builder.append("}\n");
         }
         // exe annotation method
         builder.append("} else {\n");

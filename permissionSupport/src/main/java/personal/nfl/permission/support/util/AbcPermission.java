@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 
 import personal.nfl.permission.support.constant.ApplicationConstant;
 
@@ -24,6 +25,12 @@ public class AbcPermission {
 
     public static class GetPermissionListener {
 
+        /**
+         * 当用户不给权限且选择了不再提示后，会执行这个方法
+         *
+         * @param activity
+         * @param permissions 用户拒绝授予的权限
+         */
         public void cannotRequestAgain(final Activity activity, String[] permissions) {
             StringBuffer stringBuffer = new StringBuffer();
             for (String permission : permissions) {
@@ -42,6 +49,34 @@ public class AbcPermission {
                     })
                     .setNegativeButton("取消", null);
             builder.create().show();
+        }
+
+        /**
+         * 为了程序不崩溃，被注解的方法在这里抛出的异常
+         *
+         * @param throwable
+         */
+        public void exeException(Throwable throwable) {
+
+        }
+
+        /**
+         * 当用户使用了 v4 包中的 activity 及其子类时，如果 onRequestPermissionsResult 有异常则执行这个
+         *
+         * @param throwable
+         */
+        private void requestPermissionsResultCallbackException(Throwable throwable) {
+
+        }
+
+        /**
+         * @hide
+         * @param requestCode
+         * @param permissions
+         * @param grantResults
+         */
+        public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+            Log.i("NFL" , "AbcPermission callback") ;
         }
     }
 

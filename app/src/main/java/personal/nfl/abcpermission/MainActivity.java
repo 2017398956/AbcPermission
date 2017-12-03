@@ -3,6 +3,7 @@ package personal.nfl.abcpermission;
 import android.Manifest;
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
@@ -21,19 +22,25 @@ public class MainActivity extends AppCompatActivity {
         ApplicationConstant.nowActivity = this;
     }
 
-    @GetPermissions({Manifest.permission.READ_CONTACTS,Manifest.permission.WRITE_EXTERNAL_STORAGE})
+    @GetPermissions({Manifest.permission.READ_CONTACTS})
     private Activity readContacts() {
-        Toast.makeText(this, "exe", Toast.LENGTH_SHORT).show();
-        return this ;
+        Toast.makeText(this, "readContacts", Toast.LENGTH_SHORT).show();
+        return this;
     }
 
     public void onClick(View view) {
         readContacts();
+        readFile();
     }
 
-    @GetPermissions({Manifest.permission.READ_CONTACTS,Manifest.permission.WRITE_EXTERNAL_STORAGE})
-    private Activity readFile() {
-        Toast.makeText(this, "exe", Toast.LENGTH_SHORT).show();
-        return this ;
+    @GetPermissions({Manifest.permission.WRITE_EXTERNAL_STORAGE})
+    private void readFile() {
+        Toast.makeText(this, "readFile", Toast.LENGTH_SHORT).show();
+        return;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }
