@@ -52,7 +52,7 @@ public class AbcPermission {
         }
 
         /**
-         * 为了程序不崩溃，被注解的方法在这里抛出的异常
+         * 为了程序不崩溃，被注解的方法在这里抛出异常
          *
          * @param throwable
          */
@@ -60,24 +60,6 @@ public class AbcPermission {
 
         }
 
-        /**
-         * 当用户使用了 v4 包中的 activity 及其子类时，如果 onRequestPermissionsResult 有异常则执行这个
-         *
-         * @param throwable
-         */
-        private void requestPermissionsResultCallbackException(Throwable throwable) {
-
-        }
-
-        /**
-         * @hide
-         * @param requestCode
-         * @param permissions
-         * @param grantResults
-         */
-        public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-            Log.i("NFL" , "AbcPermission callback") ;
-        }
     }
 
     /**

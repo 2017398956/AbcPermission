@@ -2,6 +2,7 @@ package personal.nfl.abcpermission;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -18,13 +19,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        AbcPermission.install(getApplication());
-        ApplicationConstant.nowActivity = this;
     }
 
     @GetPermissions({Manifest.permission.READ_CONTACTS})
     private Activity readContacts() {
         Toast.makeText(this, "readContacts", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this , MainActivity.class));
         return this;
     }
 

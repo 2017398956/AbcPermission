@@ -39,6 +39,8 @@ dependencies {
     provided project(':permissionAnnotation')
     annotationProcessor project(':permissionCompiler')
     api project(':permissionSupport')
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 }
 
 android.applicationVariants.all { variant ->

@@ -157,13 +157,13 @@ public class GetPermissionsProcessor extends AbstractProcessor {
             }
         }
         builder.append("};\n");
-        builder.append("public static final String METHOD_CALL = \"call(* ");
+        builder.append("private final String METHOD_CALL = \"call(* ");
         builder.append(enclosingName);
         builder.append(".");
         builder.append(methodName);
         builder.append("(..))\";\n");
 
-        builder.append("public static final String METHOD_EXE = \"execution(* ");
+        builder.append("private final String METHOD_EXE = \"execution(* ");
         builder.append(enclosingName);
         builder.append(".");
         builder.append(methodName);
