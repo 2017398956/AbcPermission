@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import personal.nfl.permission.annotation.GetPermissions;
 import personal.nfl.permission.support.constant.ApplicationConstant;
-import personal.nfl.permission.support.util.AbcPermission;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,10 +21,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @GetPermissions({Manifest.permission.READ_CONTACTS})
-    private Activity readContacts() {
-        Toast.makeText(this, "readContacts", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(this , MainActivity.class));
-        return this;
+    private String readContacts() {
+        Toast.makeText(ApplicationConstant.application, "readContacts", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, MainActivity.class));
+        return "" ;
     }
 
     public void onClick(View view) {
@@ -35,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     @GetPermissions({Manifest.permission.WRITE_EXTERNAL_STORAGE})
     private void readFile() {
-        Toast.makeText(this, "readFile", Toast.LENGTH_SHORT).show();
+        Toast.makeText(ApplicationConstant.application, "readFile", Toast.LENGTH_SHORT).show();
         return;
     }
 

@@ -47,7 +47,9 @@ public class MyApplication extends Application {
 
             @Override
             public void onActivityStopped(Activity activity) {
-
+                if(ApplicationConstant.nowActivity == activity){
+                    ApplicationConstant.nowActivity = null ;
+                }
             }
 
             @Override
