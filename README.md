@@ -24,15 +24,15 @@
 
 	dependencies {
 	    ...
-	    api("com.github.2017398956:AbcPermission:1.2") {
+	    api("com.github.2017398956:AbcPermission:1.4") {
 	        exclude module: 'permissionAnnotation'
 	        exclude module: 'permissionCompiler'
 	    }
-	    provided("com.github.2017398956:AbcPermission:1.2") {
+	    provided("com.github.2017398956:AbcPermission:1.4") {
 	        exclude module: 'permissionSupport'
 	        exclude module: 'permissionCompiler'
 	    }
-	    annotationProcessor("com.github.2017398956:AbcPermission:1.2") {
+	    annotationProcessor("com.github.2017398956:AbcPermission:1.4") {
 	        exclude module: 'permissionSupport'
 	    }
 	}
