@@ -1,4 +1,7 @@
 # AbcPermission
+
+[![Release Version](https://img.shields.io/badge/release-1.4-red.svg)](https://github.com/2017398956/AbcPermission/releases)
+
 一个在 Android M+ 上很方便的权限申请库，只需要在需授权的方法上加上注解即可，不会侵入业务逻辑。当 app 没有该权限时不会执行该方法，并弹出申请权限框，如果用户选择了“不再提示”则会打开设置界面（这里你可以定制）；如果有相应权限则会执行并且有异常时在 GetPermissionListener 中抛出，可自行 try catch 或根据异常信息做相应的操作。这里是这个库的思路 [http://blog.csdn.net/niuzhucedenglu/article/details/78707302](http://blog.csdn.net/niuzhucedenglu/article/details/78707302) （关于原理以后补上）
 ## 使用方法（以下操作在 gradle:3.0.1 下测试通过）
 ### 1.在项目目录下的 build.gradle 文件中加入
