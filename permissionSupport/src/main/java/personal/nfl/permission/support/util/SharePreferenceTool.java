@@ -1,6 +1,5 @@
 package personal.nfl.permission.support.util;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Base64;
@@ -48,17 +47,12 @@ public class SharePreferenceTool {
     /**
      * modified by nfl 2016-10-21
      *
-     * @param context 如果context是来自 {@link Fragment#getActivity()}有可能为null
-     *                所以应该加个判断
      * @param item
      * @return
      */
-    public static Object readObject(Context context, String item) {
+    public static Object readObject(String item) {
         Object object = null;
-        if (null == context) {
-            return null;
-        }
-        SharedPreferences preferences = context.getSharedPreferences(
+        SharedPreferences preferences = ApplicationConstant.application.getSharedPreferences(
                 OBJECT_FILE, Context.MODE_PRIVATE);
         String productBase64 = preferences.getString(item, "");
 

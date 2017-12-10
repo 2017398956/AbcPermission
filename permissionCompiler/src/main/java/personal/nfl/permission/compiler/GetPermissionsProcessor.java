@@ -146,7 +146,6 @@ public class GetPermissionsProcessor extends AbstractProcessor {
         builder.append(classPostfix);
         builder.append(" { \n\n");
 
-        builder.append("private Activity activity = ApplicationConstant.nowActivity ;\n");
         builder.append("private String[] permissions = {");
         for (int i = 0; i < permissions.length; i++) {
             builder.append("\"");
@@ -199,7 +198,7 @@ public class GetPermissionsProcessor extends AbstractProcessor {
         builder.append("}\n");
         builder.append("List<String> permissionList = new ArrayList<>();\n");
         builder.append("for (String permission : permissions) {\n");
-        builder.append("if (ContextCompat.checkSelfPermission(activity , permission) != PackageManager.PERMISSION_GRANTED) {\n");
+        builder.append("if (ContextCompat.checkSelfPermission(ApplicationConstant.nowActivity , permission) != PackageManager.PERMISSION_GRANTED) {\n");
         builder.append("permissionList.add(permission);}}\n");
         builder.append("if (permissionList.size() == 0) {\n");
         // exe annotation method
@@ -229,24 +228,24 @@ public class GetPermissionsProcessor extends AbstractProcessor {
         builder.append("}\n");
 
         builder.append("for (int i = 0; i < permissionList.size(); i++) {\n");
-        builder.append("if (ContextCompat.checkSelfPermission(activity , permissionList.get(i)) != PackageManager.PERMISSION_GRANTED) {\n");
+        builder.append("if (ContextCompat.checkSelfPermission(ApplicationConstant.nowActivity , permissionList.get(i)) != PackageManager.PERMISSION_GRANTED) {\n");
         builder.append(" Log.i(\"NFL\", \"PERMISSION_DENY\");\n");
-        builder.append("if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permissionList.get(i))) {\n");
+        builder.append("if (ActivityCompat.shouldShowRequestPermissionRationale(ApplicationConstant.nowActivity , permissionList.get(i))) {\n");
         builder.append(" Log.i(\"NFL\", \"shouldShowRequestPermissionRationale\");\n");
-        builder.append("ActivityCompat.requestPermissions(activity, permissionListTemp , 0);\n");
+        builder.append("ActivityCompat.requestPermissions(ApplicationConstant.nowActivity , permissionListTemp , 0);\n");
         builder.append("break;\n");
         builder.append("} else {\n");
-        builder.append("if (SharePreferenceTool.readObject(activity , permissionList.get(i)) != null) {\n");
+        builder.append("if (SharePreferenceTool.readObject(permissionList.get(i)) != null) {\n");
         builder.append(" Log.i(\"NFL\", \"SharePreferenceTool not null \");\n");
-        builder.append("if (!ActivityCompat.shouldShowRequestPermissionRationale(activity, permissionList.get(i))) {\n");
+        builder.append("if (!ActivityCompat.shouldShowRequestPermissionRationale(ApplicationConstant.nowActivity , permissionList.get(i))) {\n");
         builder.append(" Log.i(\"NFL\", \"!shouldShowRequestPermissionRationale not null \");\n");
-        builder.append("AbcPermission.permissionListener.cannotRequestAgain(activity , permissionListTemp);");
+        builder.append("AbcPermission.permissionListener.cannotRequestAgain(ApplicationConstant.nowActivity , permissionListTemp);");
         builder.append("break;\n");
         builder.append("}\n");
         builder.append("} else\n");
         builder.append("{\n");
         builder.append("if (permissionList.size() - 1 == i) {\n");
-        builder.append("ActivityCompat.requestPermissions(activity, permissionListTemp , 0);\n");
+        builder.append("ActivityCompat.requestPermissions(ApplicationConstant.nowActivity , permissionListTemp , 0);\n");
         builder.append("}\n");
         builder.append("SharePreferenceTool.saveObject(\"rejected\", permissionList.get(i));\n");
         builder.append("}\n");
