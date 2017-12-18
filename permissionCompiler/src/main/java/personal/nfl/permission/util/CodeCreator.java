@@ -71,12 +71,12 @@ public class CodeCreator {
         builder.append("public void beforeCall(JoinPoint joinPoint) {\n");
         builder.append("Log.i(\"NFL\", \"in Permission23Fragment exe\");\n");
         builder.append("ViewGroup viewGroup = ApplicationConstant.nowActivity.getWindow().getDecorView().findViewById(android.R.id.content);\n");
-        builder.append("FrameLayout frameLayout = ApplicationConstant.nowActivity.findViewById(R.id.permission_23);\n");
+        builder.append("FrameLayout frameLayout = ApplicationConstant.nowActivity.findViewById(R.id.permission23);\n");
         builder.append(" if (null == frameLayout) {\n");
         builder.append("frameLayout = new FrameLayout(ApplicationConstant.nowActivity);\n");
         builder.append("frameLayout.setVisibility(View.GONE);\n");
         builder.append("frameLayout.setBackgroundColor(Color.GREEN);\n");
-        builder.append("frameLayout.setId(R.id.permission_23);\n");
+        builder.append("frameLayout.setId(R.id.permission23);\n");
         builder.append("viewGroup.addView(frameLayout);\n");
         builder.append("}\n");
 
@@ -84,7 +84,7 @@ public class CodeCreator {
         builder.append("FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();\n");
         builder.append("final Permission23Fragment permission23Fragment = new Permission23Fragment();\n");
         builder.append("permission23Fragment.setPermissionsHandler(permissionsHandler);\n");
-        builder.append("fragmentTransaction.add(R.id.permission_23, permission23Fragment);\n");
+        builder.append("fragmentTransaction.add(R.id.permission23, permission23Fragment);\n");
         builder.append("fragmentTransaction.commit();\n");
         builder.append("frameLayout.post(new Runnable() {\n");
         builder.append("@RequiresApi(api = Build.VERSION_CODES.M)\n");
