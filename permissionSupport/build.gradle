@@ -24,4 +24,5 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
     api 'org.aspectj:aspectjrt:1.8.13'
+    implementation 'com.android.support:appcompat-v7:26.1.0'
 }

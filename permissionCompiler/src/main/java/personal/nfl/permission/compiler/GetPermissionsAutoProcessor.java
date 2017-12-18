@@ -26,7 +26,7 @@ import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 
-import personal.nfl.permission.annotation.GetPermissions;
+import personal.nfl.permission.annotation.GetPermissionsAuto;
 import personal.nfl.permission.util.CodeCreator;
 
 /**
@@ -34,7 +34,7 @@ import personal.nfl.permission.util.CodeCreator;
  */
 
 @AutoService(Processor.class)
-public class GetPermissionsProcessor extends AbstractProcessor {
+public class GetPermissionsAutoProcessor extends AbstractProcessor {
 
     private Filer mFiler; //文件相关的辅助类
     private Elements mElementUtils; //元素相关的辅助类
@@ -60,7 +60,7 @@ public class GetPermissionsProcessor extends AbstractProcessor {
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         Set<String> types = new LinkedHashSet<>();
-        types.add(GetPermissions.class.getCanonicalName());
+        types.add(GetPermissionsAuto.class.getCanonicalName());
         return types;
     }
 
@@ -71,7 +71,7 @@ public class GetPermissionsProcessor extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
-        Set<? extends Element> getPermissionsElement = roundEnvironment.getElementsAnnotatedWith(GetPermissions.class);
+        Set<? extends Element> getPermissionsElement = roundEnvironment.getElementsAnnotatedWith(GetPermissionsAuto.class);
         for (Element element : getPermissionsElement) {
             // 1. get package name(You'll get different name if you uses BindView in different class .)
             PackageElement packageElement = mElementUtils.getPackageOf(element);
@@ -85,7 +85,7 @@ public class GetPermissionsProcessor extends AbstractProcessor {
             note(String.format("enclosindClass = %s", enclosingName));
 
             ExecutableElement executableElement = (ExecutableElement) element;
-            String[] permissions = executableElement.getAnnotation(GetPermissions.class).value();
+            String[] permissions = executableElement.getAnnotation(GetPermissionsAuto.class).value();
             String methodName = executableElement.getSimpleName().toString();
             String returnType = executableElement.getReturnType().toString();
 
@@ -106,7 +106,11 @@ public class GetPermissionsProcessor extends AbstractProcessor {
             String classPostfix = "" + (calendar.get(Calendar.MINUTE) + 100) + (calendar.get(Calendar.SECOND) + 100) + (calendar.get(Calendar.MILLISECOND) + 1000);
             JavaFileObject jfo = mFiler.createSourceFile(packageName + ".AutoCreate" + classPostfix, new Element[]{});
             Writer writer = jfo.openWriter();
-            writer.write(CodeCreator.brewCodeNoCallback(packageName, enclosingName, permissions, classPostfix, methodName, returnType));
+            if ("void".equals(returnType)) {
+                writer.write(CodeCreator.brewCode(packageName, enclosingName, permissions, classPostfix, methodName, returnType));
+            } else {
+                writer.write(CodeCreator.brewCodeNoCallback(packageName, enclosingName, permissions, classPostfix, methodName, returnType));
+            }
             writer.flush();
             writer.close();
         } catch (IOException e) {
