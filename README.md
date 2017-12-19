@@ -6,7 +6,7 @@
 
 关于 [AbcPermission](https://github.com/2017398956/AbcPermission "AbcPermission") 的概念 [这里](http://blog.csdn.net/niuzhucedenglu/article/details/78707302 "AbcPermission") 有详细的讲解。但是在以前的版本中我们都不能对用户授权后进行回调，虽然用户只在初次授权的时候会多一次操作，但对用户体验影响不大。为了更加优化用户体检，从 V1.6 以后 [AbcPermission](https://github.com/2017398956/AbcPermission "AbcPermission") 支持对 **无返回值的方法** 进行回调，并且其回调流程已统一整合在  AbcPerpermission.permissionListener 。请放心，这次升级完全兼容 V1.6 之前的版本。
 
-### ABCPermission V1.6 新特性的使用方法
+### AbcPermission V1.6 新特性的使用方法
 
 1. 首先按照 [这里](http://blog.csdn.net/niuzhucedenglu/article/details/78707302 "AbcPermission") 或者下面 [1.6之前的方法](https://github.com/2017398956/AbcPermission#以下是-v16-之前的说明)  配置好所需的环境；
 
