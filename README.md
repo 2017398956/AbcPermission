@@ -8,7 +8,7 @@
 
 ### ABCPermission V1.6 新特性的使用方法
 
-1. 首先按照 [这里](http://blog.csdn.net/niuzhucedenglu/article/details/78707302 "AbcPermission") 或者下面 [1.6之前的方法](https://github.com/2017398956/AbcPermission##%20以下是%20V1.6%20之前的说明)  配置好所需的环境；
+1. 首先按照 [这里](http://blog.csdn.net/niuzhucedenglu/article/details/78707302 "AbcPermission") 或者下面 [1.6之前的方法](https://github.com/2017398956/AbcPermission#以下是-v16-之前的说明)  配置好所需的环境；
 
 2. V1.6 之前的版本获取权限时使用的是 @GetPermissions({...}) ,现在你可以放弃这种用法了，将其改为  @GetPermissionsAuto({...}) 这样就可以对 **无返回值的方法** 在进行申请权限时进行回调；对于 **有返回值的方法** ，会走以前的逻辑，请放心升级。
 3. 回调分为以下三类：1.用户点击 **同意授权** ，这种不需要你处理；      2.用户点击 **拒绝授权** ， 用户点击后会触发 AbcPerpermission.permissionListener.showRequestPermissionRationale(final Permission23Fragment permission23Fragment, final String[] permissions) 你可以在这里根据权限信息弹出相应的提示，当用户点击确定后 通过 **permission23Fragment.requestPermissions(permissions);** 再次申请权限，注意，这里**不要**使用 Fragment#requestPermissions(String[], int) 申请权限；      3.用户点击 **拒绝授权且不再提示** ，*如果你已经接入了 V1.6 之前的版本，那么，不需要做任何处理，就是这么省心 ^_^，*如果是第一次接入你可以在 ABCPermission.permissionListener.cannotRequestAgain(...) 中进行弹窗提示和打开设置界面，详细内容请移步 [这里](http://blog.csdn.net/niuzhucedenglu/article/details/78707302 "AbcPermission") 。
