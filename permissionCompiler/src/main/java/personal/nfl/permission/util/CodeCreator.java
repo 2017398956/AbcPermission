@@ -70,7 +70,8 @@ public class CodeCreator {
         // create method beforeCall
         builder.append("@Before(\"methodCall()\")\n");
         builder.append("public void beforeCall(JoinPoint joinPoint) {\n");
-        builder.append("Log.i(\"NFL\", \"in Permission23Fragment exe\");\n");
+        builder.append("Log.i(\"NFL\", \"beforeCall Permission23Fragment\");\n");
+        builder.append("if (android.os.Build.VERSION.SDK_INT >= 14) {\n");
         builder.append("ViewGroup viewGroup = ApplicationConstant.nowActivity.getWindow().getDecorView().findViewById(android.R.id.content);\n");
         builder.append("FrameLayout frameLayout = ApplicationConstant.nowActivity.findViewById(R.id.permission23);\n");
         builder.append(" if (null == frameLayout) {\n");
@@ -94,6 +95,7 @@ public class CodeCreator {
         builder.append(" permission23Fragment.requestPermissions(permissions);\n");
         builder.append("}\n");
         builder.append("});\n");
+        builder.append("}\n");
         builder.append("}\n");
         // create method aroundExe
         builder.append("@Around(\"methodExe()\")\n");
