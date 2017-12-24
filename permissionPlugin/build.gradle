@@ -1,0 +1,33 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.aspectj:aspectjtools:1.8.13'
+        classpath 'org.aspectj:aspectjweaver:1.8.13'
+    }
+}
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+    compile 'org.aspectj:aspectjtools:1.8.13'
+    compile 'org.aspectj:aspectjweaver:1.8.13'
+}
+
+repositories {
+    mavenCentral()
+}
+group = 'personal.nfl.permission'
+version = '0.1.6'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri('../repo'))
+        }
+    }
+}

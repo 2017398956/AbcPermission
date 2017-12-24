@@ -1,18 +1,5 @@
-import org.aspectj.bridge.IMessage
-import org.aspectj.bridge.MessageHandler
-import org.aspectj.tools.ajc.Main
-
 apply plugin: 'com.android.application'
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'org.aspectj:aspectjtools:1.8.13'
-        classpath 'org.aspectj:aspectjweaver:1.8.13'
-    }
-}
+apply plugin: 'abcpermission.plugin'
 
 android {
     compileSdkVersion 26
@@ -41,37 +28,4 @@ dependencies {
     api project(':permissionSupport')
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
-}
-
-android.applicationVariants.all { variant ->
-    Task javaCompile = variant.getJavaCompiler()
-    javaCompile.doLast {
-        String[] args = ["-showWeaveInfo",
-                         "-1.5",
-                         "-inpath", javaCompile.destinationDir.toString(),
-                         "-aspectpath", javaCompile.classpath.asPath,
-                         "-d", javaCompile.destinationDir.toString(),
-                         "-classpath", javaCompile.classpath.asPath,
-                         "-bootclasspath", android.bootClasspath.join(File.pathSeparator)]
-        MessageHandler handler = new MessageHandler(true)
-        new Main().run(args, handler)
-
-        def log = project.logger
-        for (IMessage message : handler.getMessages(null, true)) {
-            switch (message.getKind()) {
-                case IMessage.ABORT:
-                case IMessage.ERROR:
-                case IMessage.FAIL:
-                    log.error message.message, message.thrown
-                    break;
-                case IMessage.WARNING:
-                case IMessage.INFO:
-                    log.info message.message, message.thrown
-                    break;
-                case IMessage.DEBUG:
-                    log.debug message.message, message.thrown
-                    break;
-            }
-        }
-    }
 }
