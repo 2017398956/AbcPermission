@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'abcpermission.plugin'
+//apply plugin: 'abcpermission.plugin'
 
 android {
     compileSdkVersion 26

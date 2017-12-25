@@ -22,7 +22,7 @@ repositories {
     mavenCentral()
 }
 group = 'personal.nfl.permission'
-version = '0.1.6'
+version = '0.2.0'
 
 uploadArchives {
     repositories {
