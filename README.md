@@ -43,7 +43,7 @@
 	    }
 	    dependencies {
 	        ...
-	        classpath 'com.github.2017398956:AspectPlugin:1.0'
+	        classpath 'com.github.2017398956:AspectPlugin:1.2'
 	    }
 	}
 
