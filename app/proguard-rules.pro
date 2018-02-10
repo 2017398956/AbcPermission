@@ -19,3 +19,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep public class personal.nfl.permission.*
+-keep public class personal.nfl.abcpermission.common.BeanInterface
+-keep public class * implements personal.nfl.abcpermission.common.BeanInterface
+-keepclasseswithmembers public class * implements personal.nfl.abcpermission.common.BeanInterface
