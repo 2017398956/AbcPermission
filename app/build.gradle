@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'abcpermission.plugin'
+// apply plugin: 'abcpermission.plugin'
+apply plugin: 'AspectPlugin'
 
 android {
     compileSdkVersion 26
@@ -15,6 +16,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
     }
 }
 
@@ -26,6 +31,7 @@ dependencies {
     provided project(':permissionAnnotation')
     annotationProcessor project(':permissionCompiler')
     api project(':permissionSupport')
+    api 'org.aspectj:aspectjrt:1.8.13'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 }
