@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import java.lang.reflect.Field;
 
+import personal.nfl.abcpermission.bean.NewBean;
 import personal.nfl.permission.annotation.GetPermissionsAuto;
 import personal.nfl.permission.support.constant.ApplicationConstant;
 
@@ -22,12 +23,13 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         try {
-            Class clazz = Class.forName(TestBean.class.getName()) ;
-            Field field = clazz.getDeclaredField("name") ;
+            Class clazz = Class.forName(NewBean.class.getName());
+            Field field = clazz.getDeclaredField("company");
+            Toast.makeText(this, "ok", Toast.LENGTH_SHORT).show();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (NoSuchFieldException e) {
-            Log.e("ERROR" , e.toString()) ;
+            Log.e("NFL", e.toString());
             e.printStackTrace();
         }
     }

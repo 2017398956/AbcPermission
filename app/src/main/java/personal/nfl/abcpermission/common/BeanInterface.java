@@ -1,5 +1,7 @@
 package personal.nfl.abcpermission.common;
 
+import android.support.annotation.Keep;
+
 /**
  *
  * @author nfl

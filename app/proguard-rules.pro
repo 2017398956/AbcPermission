@@ -20,7 +20,25 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep public class personal.nfl.permission.*
--keep public class personal.nfl.abcpermission.common.BeanInterface
--keep public class * implements personal.nfl.abcpermission.common.BeanInterface
--keepclasseswithmembers public class * implements personal.nfl.abcpermission.common.BeanInterface
+# 指定代码的压缩级别
+-optimizationpasses 5
+# 包名不混合大小写
+# -dontusemixedcaseclassnames
+# 不去忽略非公共的库类
+# -dontskipnonpubliclibraryclasses
+# 优化  不优化输入的类文件
+# -dontoptimize
+# 预校验
+# -dontpreverify
+#混淆时是否记录日志
+# -verbose
+# 混淆时所采用的算法
+# -optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
+# 保护注解
+# -keepattributes *Annotation*
+
+
+# 不混淆 AbcPermission
+# -keep public class personal.nfl.permission.**{*;}
+-keep public class personal.nfl.abcpermission.common.BeanKeepInterface
+-keep public class * implements personal.nfl.abcpermission.common.BeanKeepInterface{*;}
