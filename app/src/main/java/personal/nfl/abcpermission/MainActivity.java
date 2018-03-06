@@ -2,7 +2,9 @@ package personal.nfl.abcpermission;
 
 import android.Manifest;
 import android.app.Activity;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -45,7 +47,9 @@ public class MainActivity extends Activity {
         if (view.getId() == R.id.bn_contact) {
             readContacts();
         } else if (view.getId() == R.id.bn_file) {
-            readFile();
+            // readFile();
+            Cursor cursor = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,
+                    null, null, null, null);
         }
     }
 
