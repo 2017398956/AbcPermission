@@ -87,8 +87,7 @@ public class MyApplication extends Application {
         Cockroach.install(new Cockroach.ExceptionHandler() {
             @Override
             public void handlerException(Thread thread, Throwable throwable) {
-
-
+                throwable.printStackTrace();
                 String ret = null;
                 try {
                     ByteArrayOutputStream out = new ByteArrayOutputStream();

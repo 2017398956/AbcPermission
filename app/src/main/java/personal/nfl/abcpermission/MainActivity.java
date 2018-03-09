@@ -48,8 +48,9 @@ public class MainActivity extends Activity {
             readContacts();
         } else if (view.getId() == R.id.bn_file) {
             // readFile();
-            Cursor cursor = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,
-                    null, null, null, null);
+//            Cursor cursor = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,
+//                    null, null, null, null);
+            int a = Integer.parseInt("sdfa") ;
         }
     }
 
