@@ -34,6 +34,7 @@ public class MyApplication extends Application {
             return;
         }
         LeakCanary.install(this);
+
         AbcPermission.install(this);
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
