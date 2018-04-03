@@ -1,6 +1,10 @@
 # AbcPermission
 
-[![Release Version](https://img.shields.io/badge/release-1.6-red.svg)](https://github.com/2017398956/AbcPermission/releases)
+[![Release Version](https://img.shields.io/badge/release-1.6.3-green.svg)](https://github.com/2017398956/AbcPermission/releases)
+
+**更新日志：**
+
+- **1.6.3** 解决在 gradle4.4中 appcompat-v7 版本冲突问题：考虑到 appcompat-v7 现在是必安装的包，因此在项目中不再传递该依赖，以免造成版本冲突，使用时请自行添加 appcompat-v7 依赖。
 
 ## 接入方式优化
 
@@ -17,7 +21,7 @@
 	    }
 	    dependencies {
 	        ...
-	        classpath 'com.github.2017398956:abcpermission-plugin:1.3'
+	        classpath 'com.github.2017398956:abcpermission-plugin:1.3.4'
 	    }
 	}
 
@@ -60,15 +64,15 @@
 
 	dependencies {
 	    ...
-	    api("com.github.2017398956:AbcPermission:1.6") {
+	    api("com.github.2017398956:AbcPermission:1.6.3") {
 	        exclude module: 'permissionAnnotation'
 	        exclude module: 'permissionCompiler'
 	    }
-	    provided("com.github.2017398956:AbcPermission:1.6") {
+	    provided("com.github.2017398956:AbcPermission:1.6.3") {
 	        exclude module: 'permissionSupport'
 	        exclude module: 'permissionCompiler'
 	    }
-	    annotationProcessor("com.github.2017398956:AbcPermission:1.6") {
+	    annotationProcessor("com.github.2017398956:AbcPermission:1.6.3") {
 	        exclude module: 'permissionSupport'
 	    }
 	}
