@@ -1,1 +1,2 @@
-include ':app', ':permissionSupport', ':permissionAnnotation', ':permissionCompiler' //, 'permissionPlugin'
+include ':app', ':permissionSupport', ':permissionAnnotation', ':permissionCompiler'
+include 'permissionPlugin'
