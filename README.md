@@ -21,7 +21,7 @@
 	    }
 	    dependencies {
 	        ...
-	        classpath 'com.github.2017398956:abcpermission-plugin:1.3.4'
+	        classpath 'com.github.2017398956:abcpermission-plugin:1.3.5'
 	    }
 	}
 
