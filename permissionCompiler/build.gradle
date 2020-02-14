@@ -4,8 +4,8 @@ group='com.github.2017398956'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.google.auto.service:auto-service:1.0-rc3'
-    implementation 'org.aspectj:aspectjrt:1.8.13'
+    implementation 'com.google.auto.service:auto-service:1.0-rc6'
+    implementation 'org.aspectj:aspectjrt:1.9.5'
     implementation project(':permissionAnnotation')
 }
 

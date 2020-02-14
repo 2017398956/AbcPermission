@@ -14,8 +14,8 @@ buildscript {
 dependencies {
     compile gradleApi()
     compile localGroovy()
-    compile 'org.aspectj:aspectjtools:1.8.13'
-    compile 'org.aspectj:aspectjweaver:1.8.13'
+    implementation 'org.aspectj:aspectjtools:1.9.5'
+    implementation 'org.aspectj:aspectjweaver:1.9.5'
 }
 
 repositories {
