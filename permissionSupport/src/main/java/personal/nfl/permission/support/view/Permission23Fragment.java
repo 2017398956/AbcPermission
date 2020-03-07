@@ -2,9 +2,9 @@ package personal.nfl.permission.support.view;
 
 import android.app.Fragment;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.v4.content.PermissionChecker;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.core.content.PermissionChecker;
 
 import java.util.ArrayList;
 import java.util.List;

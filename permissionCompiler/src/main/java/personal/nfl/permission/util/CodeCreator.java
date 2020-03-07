@@ -8,6 +8,10 @@ public class CodeCreator {
 
 
     public static String brewCode(String packageName, String enclosingName, String[] permissions, String classPostfix, String methodName, String returnType) {
+        return brewCode(packageName , enclosingName , permissions , classPostfix , methodName , returnType , false) ;
+    }
+
+    public static String brewCode(String packageName, String enclosingName, String[] permissions, String classPostfix, String methodName, String returnType , boolean useAndroidX){
 
         StringBuilder builder = new StringBuilder();
         builder.append("package " + packageName + ";\n\n");
@@ -15,7 +19,11 @@ public class CodeCreator {
         builder.append("import android.app.FragmentTransaction;\n");
         builder.append("import android.graphics.Color;\n");
         builder.append("import android.os.Build;\n");
-        builder.append("import android.support.annotation.RequiresApi;\n");
+        if(useAndroidX){
+            builder.append("import androidx.annotation.RequiresApi;\n");
+        }else {
+            builder.append("import android.support.annotation.RequiresApi;\n");
+        }
         builder.append("import android.util.Log;\n");
         builder.append("import android.view.View;\n");
         builder.append("import android.view.ViewGroup;\n");
@@ -143,8 +151,7 @@ public class CodeCreator {
         return builder.toString();
     }
 
-
-    public static String brewCodeNoCallback(String packageName, String enclosingName, String[] permissions, String classPostfix, String methodName, String returnType) {
+    public static String brewCodeNoCallback(String packageName, String enclosingName, String[] permissions, String classPostfix, String methodName, String returnType , boolean useAndroidX) {
         StringBuilder builder = new StringBuilder();
         builder.append("package " + packageName + ";\n\n");
         builder.append("import android.Manifest;\n");
@@ -153,8 +160,13 @@ public class CodeCreator {
         builder.append("import android.content.Intent;\n");
         builder.append("import android.content.pm.PackageManager;\n");
         builder.append("import android.net.Uri ;\n");
-        builder.append("import android.support.v4.content.ContextCompat;\n");
-        builder.append("import android.support.v4.app.ActivityCompat;\n");
+        if(useAndroidX){
+            builder.append("import androidx.core.content.ContextCompat;\n");
+            builder.append("import androidx.core.app.ActivityCompat;\n");
+        }else {
+            builder.append("import android.support.v4.content.ContextCompat;\n");
+            builder.append("import android.support.v4.app.ActivityCompat;\n");
+        }
         builder.append("import android.util.Log;\n");
         builder.append("import org.aspectj.lang.JoinPoint;\n");
         builder.append("import org.aspectj.lang.ProceedingJoinPoint;\n");
@@ -293,4 +305,9 @@ public class CodeCreator {
         builder.append("}");
         return builder.toString();
     }
+
+    public static String brewCodeNoCallback(String packageName, String enclosingName, String[] permissions, String classPostfix, String methodName, String returnType) {
+       return brewCodeNoCallback(packageName , enclosingName , permissions , classPostfix , methodName , returnType , false) ;
+    }
+
 }

@@ -1,6 +1,6 @@
 package personal.nfl.abcpermission.bean;
 
-import android.support.annotation.Keep;
+import androidx.annotation.Keep;
 
 /**
  * Created by fuli.niu on 2018/2/11.

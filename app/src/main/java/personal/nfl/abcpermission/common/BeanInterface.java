@@ -1,6 +1,6 @@
 package personal.nfl.abcpermission.common;
 
-import android.support.annotation.Keep;
+import androidx.annotation.Keep;
 
 /**
  *

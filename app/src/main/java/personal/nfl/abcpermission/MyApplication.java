@@ -77,6 +77,7 @@ public class MyApplication extends Application {
                 super.exeException(throwable);
             }
         };
+
         Cockroach.install(new Cockroach.ExceptionHandler() {
             @Override
             public void handlerException(Thread thread, Throwable throwable) {

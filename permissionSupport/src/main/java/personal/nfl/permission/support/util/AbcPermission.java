@@ -8,7 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 
 import personal.nfl.permission.support.constant.ApplicationConstant;
 import personal.nfl.permission.support.view.Permission23Fragment;

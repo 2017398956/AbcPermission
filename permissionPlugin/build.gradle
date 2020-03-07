@@ -6,14 +6,14 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.aspectj:aspectjtools:1.8.13'
-        classpath 'org.aspectj:aspectjweaver:1.8.13'
+        classpath 'org.aspectj:aspectjtools:1.9.5'
+        classpath 'org.aspectj:aspectjweaver:1.9.5'
     }
 }
 
 dependencies {
-    compile gradleApi()
-    compile localGroovy()
+    implementation gradleApi()
+    implementation localGroovy()
     implementation 'org.aspectj:aspectjtools:1.9.5'
     implementation 'org.aspectj:aspectjweaver:1.9.5'
 }

@@ -3,10 +3,10 @@ apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.2017398956'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 29
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 26
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
     }
@@ -22,7 +22,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
     api 'org.aspectj:aspectjrt:1.9.5'
-    compileOnly 'com.android.support:appcompat-v7:28.0.0'
+    compileOnly 'androidx.appcompat:appcompat:1.1.0'
 }

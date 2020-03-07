@@ -1,4 +1,4 @@
 include ':app', ':permissionSupport', ':permissionAnnotation', ':permissionCompiler'
-include 'permissionPlugin'
+//include 'permissionPlugin'
 
 rootProject.name='AbcPermission'
