@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'abcpermission.plugin'
+// 这个是测试 permissionPlugin 或 com.github.2017398956:abcpermission-plugin:{version} 时引用的
+// apply plugin: 'abcpermission.plugin'
 apply plugin: 'AspectPlugin'
 // 这里的代码只在不用 apply plugin: 'abcpermission.plugin' 和 apply plugin: 'AspectPlugin' 时使用
 // import org.aspectj.bridge.IMessage

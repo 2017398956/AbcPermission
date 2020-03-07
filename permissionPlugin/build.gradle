@@ -24,6 +24,7 @@ repositories {
 group = 'personal.nfl.permission'
 version = '0.2.0'
 
+// 先生成本地 maven 仓库 repo
 uploadArchives {
     repositories {
         mavenDeployer {

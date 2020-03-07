@@ -14,23 +14,23 @@ class AbcPermissionPlugin implements Plugin<Project> {
         for (String name : project.repositories.getNames()) {
             println(name)
         }
-//        project.repositories.maven {
-//            url 'https://jitpack.io'
-//        }
-//
-//        project.dependencies{
-//            api("com.github.2017398956:AbcPermission:1.6.3") {
-//                exclude module: 'permissionAnnotation'
-//                exclude module: 'permissionCompiler'
-//            }
-//            provided("com.github.2017398956:AbcPermission:1.6.3") {
-//                exclude module: 'permissionSupport'
-//                exclude module: 'permissionCompiler'
-//            }
-//            annotationProcessor("com.github.2017398956:AbcPermission:1.6.3") {
-//                exclude module: 'permissionSupport'
-//            }
-//        }
+        project.repositories.maven {
+            url 'https://jitpack.io'
+        }
+
+        project.dependencies{
+            api("com.github.2017398956:AbcPermission:1.6.4") {
+                exclude module: 'permissionAnnotation'
+                exclude module: 'permissionCompiler'
+            }
+            provided("com.github.2017398956:AbcPermission:1.6.4") {
+                exclude module: 'permissionSupport'
+                exclude module: 'permissionCompiler'
+            }
+            annotationProcessor("com.github.2017398956:AbcPermission:1.6.4") {
+                exclude module: 'permissionSupport'
+            }
+        }
 
 //        project.dependencies.add("implementation",
 //                "com.github.2017398956:AbcPermission:1.6", {
@@ -53,13 +53,13 @@ class AbcPermissionPlugin implements Plugin<Project> {
             if (project.android.hasProperty('applicationVariants')
                     && project.android.applicationVariants != null) {
                 project.android.applicationVariants.all { variant ->
-                    doLast(variant.getJavaCompileProvider())
+                    doLast(variant.getJavaCompileProvider().get())
                 }
             }
             if (project.android.hasProperty('libraryVariants')
                     && project.android.libraryVariants != null) {
                 project.android.libraryVariants.all { variant ->
-                    doLast(variant.getJavaCompileProvider())
+                    doLast(variant.getJavaCompileProvider().get())
                 }
             }
         }

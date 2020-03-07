@@ -45,7 +45,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    @GetPermissions4AndroidX({Manifest.permission.READ_CONTACTS,Manifest.permission.LOCATION_HARDWARE})
+    @GetPermissions4AndroidX({Manifest.permission.READ_CONTACTS})
     private String readContacts() {
         Toast.makeText(ApplicationConstant.application, "readContacts", Toast.LENGTH_SHORT).show();
         // startActivity(new Intent(this, MainActivity.class));

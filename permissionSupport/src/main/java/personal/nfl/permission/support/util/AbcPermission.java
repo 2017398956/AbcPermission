@@ -1,5 +1,6 @@
 package personal.nfl.permission.support.util;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Application;
@@ -8,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+
 import androidx.annotation.RequiresApi;
 
 import personal.nfl.permission.support.constant.ApplicationConstant;
@@ -37,13 +39,8 @@ public class AbcPermission {
          */
         @RequiresApi(api = Build.VERSION_CODES.M)
         public void showRequestPermissionRationale(final Permission23Fragment permission23Fragment, final String[] permissions) {
-            StringBuffer stringBuffer = new StringBuffer();
-            for (String permission : permissions) {
-                stringBuffer.append(permission);
-                stringBuffer.append("\n");
-            }
             AlertDialog.Builder builder = new AlertDialog.Builder(permission23Fragment.getActivity()).setTitle("权限申请")
-                    .setMessage(stringBuffer.toString())
+                    .setMessage(getMessage(permissions , false))
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -62,13 +59,8 @@ public class AbcPermission {
          * @param permissions 用户拒绝授予的权限
          */
         public void cannotRequestAgain(final Activity activity, String[] permissions) {
-            StringBuffer stringBuffer = new StringBuffer();
-            for (String permission : permissions) {
-                stringBuffer.append(permission);
-                stringBuffer.append("\n");
-            }
             AlertDialog.Builder builder = new AlertDialog.Builder(activity).setTitle("权限申请")
-                    .setMessage(stringBuffer.toString())
+                    .setMessage(getMessage(permissions , true))
                     .setPositiveButton("去设置", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -88,6 +80,40 @@ public class AbcPermission {
          */
         public void exeException(Throwable throwable) {
 
+        }
+
+        /**
+         * 根据所需权限获得相应的提示信息
+         * @param permissions
+         * @return
+         */
+        private StringBuffer getMessage(String[] permissions , boolean gotoSetting){
+            StringBuffer stringBuffer = new StringBuffer();
+            for (String permission : permissions) {
+                stringBuffer.append(permission);
+                stringBuffer.append("\n");
+            }
+            StringBuffer message = new StringBuffer();
+            String allPermissions = stringBuffer.toString();
+            message.append("由于无法获取");
+            if (allPermissions.contains(Manifest.permission.READ_CONTACTS) || allPermissions.contains(Manifest.permission.WRITE_CONTACTS)) {
+                message.append("通讯录");
+                allPermissions = allPermissions.replace(Manifest.permission.READ_CONTACTS + "\n" , "") ;
+                allPermissions = allPermissions.replace(Manifest.permission.WRITE_CONTACTS + "\n" , "") ;
+            }
+            if (allPermissions.contains(Manifest.permission.READ_EXTERNAL_STORAGE) || allPermissions.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                message.append("存储空间");
+                allPermissions = allPermissions.replace(Manifest.permission.READ_EXTERNAL_STORAGE + "\n" , "") ;
+                allPermissions = allPermissions.replace(Manifest.permission.WRITE_EXTERNAL_STORAGE + "\n" , "") ;
+            }
+            message.append(allPermissions) ;
+            message.append("权限，可能无法正常使用，请开启权限后再使用");
+            if(gotoSetting){
+                message.append("\n\n设置路径：系统设置->");
+                message.append(ApplicationConstant.application.getPackageManager().getApplicationLabel(ApplicationConstant.application.getApplicationInfo()));
+                message.append("->权限");
+            }
+            return message ;
         }
 
     }

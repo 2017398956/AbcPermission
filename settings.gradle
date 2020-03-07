@@ -1,4 +1,5 @@
 include ':app', ':permissionSupport', ':permissionAnnotation', ':permissionCompiler'
+// 测试 permissionPlugin 时才打开，正常情况下注释掉
 //include 'permissionPlugin'
 
 rootProject.name='AbcPermission'
