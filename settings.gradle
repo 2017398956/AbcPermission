@@ -1,5 +1,5 @@
 include ':app', ':permissionSupport', ':permissionAnnotation', ':permissionCompiler'
-// 测试 permissionPlugin 时才打开，正常情况下注释掉
-//include 'permissionPlugin'
+// 虽然引入了但不要使用，这个时用来为其它项目提供本地 maven 库的
+include 'permissionPlugin'
 
 rootProject.name='AbcPermission'

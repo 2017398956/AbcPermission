@@ -38,6 +38,20 @@
 
 	apply plugin: 'abcpermission.plugin'
 
+#### 3.错误解决方法
+
+    - 如果出现这个错误
+    - Default interface methods are only supported starting with Android N (--min-api 24): void org.aspectj.lang.ProceedingJoinPoint.stack$AroundClosure(org.aspectj.runtime.internal.AroundClosure)
+    - 或
+    - Error: Default interface methods are only supported starting with Android N (--min-api 24): void org.aspectj.lang.ProceedingJoinPoint.stack$AroundClosure(org.aspectj.runtime.internal.AroundClosure)
+    - 可以在 app moudle 的 build.gradle 中添加上下面的代码：
+	    - android {
+               compileOptions {
+                   sourceCompatibility 1.8
+                   targetCompatibility 1.8
+               }
+           }
+
 ### 方案二
 
 #### 1.在根目录下的 build 文件中添加如下代码
