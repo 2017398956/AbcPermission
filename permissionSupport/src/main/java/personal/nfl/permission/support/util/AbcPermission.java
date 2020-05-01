@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
 
@@ -24,7 +25,50 @@ public class AbcPermission {
     public static GetPermissionListener permissionListener = new GetPermissionListener();
 
     public static void install(Application application) {
-        ApplicationConstant.application = application;
+        if (ApplicationConstant.application == null) {
+            ApplicationConstant.application = application;
+            ApplicationConstant.application.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
+                @Override
+                public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                    ApplicationConstant.nowActivity = activity;
+                }
+
+                @Override
+                public void onActivityStarted(Activity activity) {
+                    ApplicationConstant.nowActivity = activity;
+                }
+
+                @Override
+                public void onActivityResumed(Activity activity) {
+                    ApplicationConstant.nowActivity = activity;
+                }
+
+                @Override
+                public void onActivityPaused(Activity activity) {
+
+                }
+
+                @Override
+                public void onActivityStopped(Activity activity) {
+
+                }
+
+                @Override
+                public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+                }
+
+                @Override
+                public void onActivityDestroyed(Activity activity) {
+
+                }
+            });
+        }
+    }
+
+    public static void install(Activity activity) {
+        ApplicationConstant.nowActivity = activity ;
+        install(activity.getApplication());
     }
 
     public static class GetPermissionListener {
@@ -103,6 +147,11 @@ public class AbcPermission {
             }
             if (allPermissions.contains(Manifest.permission.READ_EXTERNAL_STORAGE) || allPermissions.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 message.append("存储空间");
+                allPermissions = allPermissions.replace(Manifest.permission.READ_EXTERNAL_STORAGE + "\n" , "") ;
+                allPermissions = allPermissions.replace(Manifest.permission.WRITE_EXTERNAL_STORAGE + "\n" , "") ;
+            }
+            if (allPermissions.contains(Manifest.permission.READ_PHONE_STATE)) {
+                message.append("手机状态");
                 allPermissions = allPermissions.replace(Manifest.permission.READ_EXTERNAL_STORAGE + "\n" , "") ;
                 allPermissions = allPermissions.replace(Manifest.permission.WRITE_EXTERNAL_STORAGE + "\n" , "") ;
             }
