@@ -1,6 +1,7 @@
 package personal.nfl.permission.support.view;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Build;
 
 import java.lang.reflect.InvocationTargetException;
@@ -40,7 +41,7 @@ public class Permission23Fragment extends Fragment {
         if (null != permissionChecker) {
             try {
                 PERMISSION_GRANTED = (int) permissionChecker.getField("PERMISSION_GRANTED").get(permissionChecker);
-                checkSelfPermission = permissionChecker.getMethod("checkSelfPermission");
+                checkSelfPermission = permissionChecker.getMethod("checkSelfPermission" , Context.class , String.class);
             } catch (NoSuchFieldException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
