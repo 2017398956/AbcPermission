@@ -1,8 +1,9 @@
 # AbcPermission
 
-[![Release Version](https://img.shields.io/badge/release-1.6.4-green.svg)](https://github.com/2017398956/AbcPermission/releases)
+[![Release Version](https://img.shields.io/badge/release-1.6.7-green.svg)](https://github.com/2017398956/AbcPermission/releases)
 
 **更新日志：**
+- **1.6.7** 修复在 support 包下的错误
 - **1.6.4** 支持 AndroidX ，用 @GetPermissions4AndroidX 代替 @GetPermissionsAuto；使用 support 的请使用 com.github.2017398956:abcpermission-plugin:1.3.5 。
 
 - **1.6.3** 解决在 gradle4.4中 appcompat-v7 版本冲突问题：考虑到 appcompat-v7 现在是必安装的包，因此在项目中不再传递该依赖，以免造成版本冲突，使用时请自行添加 appcompat-v7 依赖。
@@ -217,7 +218,7 @@
 
 如果报出 找不到 MessageHandler 等类的错误，先将其注释掉，sync 后再打开加入即可。
 
-#### 3.在你的 application 类中加入
+#### 3.在你的 application 类 或 activity 中加入
 
 	// 在申请权前配置
 	@Override
@@ -225,7 +226,7 @@
         super.onCreate();
 		AbcPermission.install(this);
 
-#### 4.配置 nowActivity 
+#### 4.配置 nowActivity （现行版本不需要配置）
 
 由于权限的申请需要 activity 这里我们维护一个全局的 nowActivity，如果你的目标用户在 4.0 以上你可以在 application 中添加（也必须在申请权前）
 

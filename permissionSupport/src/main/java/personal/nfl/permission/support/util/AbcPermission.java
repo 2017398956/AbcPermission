@@ -11,8 +11,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
-import androidx.annotation.RequiresApi;
-
 import personal.nfl.permission.support.constant.ApplicationConstant;
 import personal.nfl.permission.support.view.Permission23Fragment;
 
@@ -81,7 +79,6 @@ public class AbcPermission {
          * @param permission23Fragment
          * @param permissions
          */
-        @RequiresApi(api = Build.VERSION_CODES.M)
         public void showRequestPermissionRationale(final Permission23Fragment permission23Fragment, final String[] permissions) {
             AlertDialog.Builder builder = new AlertDialog.Builder(permission23Fragment.getActivity()).setTitle("权限申请")
                     .setMessage(getMessage(permissions , false))
@@ -139,21 +136,20 @@ public class AbcPermission {
             }
             StringBuffer message = new StringBuffer();
             String allPermissions = stringBuffer.toString();
-            message.append("由于无法获取");
+            message.append("由于无法获取 ");
             if (allPermissions.contains(Manifest.permission.READ_CONTACTS) || allPermissions.contains(Manifest.permission.WRITE_CONTACTS)) {
-                message.append("通讯录");
+                message.append("通讯录 ");
                 allPermissions = allPermissions.replace(Manifest.permission.READ_CONTACTS + "\n" , "") ;
                 allPermissions = allPermissions.replace(Manifest.permission.WRITE_CONTACTS + "\n" , "") ;
             }
             if (allPermissions.contains(Manifest.permission.READ_EXTERNAL_STORAGE) || allPermissions.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                message.append("存储空间");
+                message.append("存储空间 ");
                 allPermissions = allPermissions.replace(Manifest.permission.READ_EXTERNAL_STORAGE + "\n" , "") ;
                 allPermissions = allPermissions.replace(Manifest.permission.WRITE_EXTERNAL_STORAGE + "\n" , "") ;
             }
             if (allPermissions.contains(Manifest.permission.READ_PHONE_STATE)) {
-                message.append("手机状态");
-                allPermissions = allPermissions.replace(Manifest.permission.READ_EXTERNAL_STORAGE + "\n" , "") ;
-                allPermissions = allPermissions.replace(Manifest.permission.WRITE_EXTERNAL_STORAGE + "\n" , "") ;
+                message.append("电话 ");
+                allPermissions = allPermissions.replace(Manifest.permission.READ_PHONE_STATE + "\n", "");
             }
             message.append(allPermissions) ;
             message.append("权限，可能无法正常使用，请开启权限后再使用");

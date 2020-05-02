@@ -2,14 +2,16 @@ package personal.nfl.permission.support.view;
 
 import android.app.Fragment;
 import android.os.Build;
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.core.content.PermissionChecker;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 import personal.nfl.permission.support.util.AbcPermission;
+
+// import androidx.core.content.PermissionChecker;
+//import android.support.v4.content.PermissionChecker;
 
 /**
  * Created by fuli.niu on 2017/12/18.
@@ -18,14 +20,43 @@ import personal.nfl.permission.support.util.AbcPermission;
 public class Permission23Fragment extends Fragment {
 
     private PermissionsHandler permissionsHandler;
+    // 由于 androidx 的原因这里使用反射
+    private Class permissionChecker;
+    private int PERMISSION_GRANTED;
+    private Method checkSelfPermission;
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+    public Permission23Fragment() {
+        super();
+        try {
+            permissionChecker = Class.forName("androidx.core.content.PermissionChecker");
+        } catch (ClassNotFoundException e) {
+            // 发生异常则说明当前用户使用的不是 androidx
+            try {
+                permissionChecker = Class.forName("android.support.v4.content.PermissionChecker");
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        }
+        if (null != permissionChecker) {
+            try {
+                PERMISSION_GRANTED = (int) permissionChecker.getField("PERMISSION_GRANTED").get(permissionChecker);
+                checkSelfPermission = permissionChecker.getMethod("checkSelfPermission");
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         boolean hasPermissions = true;
         for (int result : grantResults) {
-            if (result != PermissionChecker.PERMISSION_GRANTED) {
+            if (result != PERMISSION_GRANTED) {
                 hasPermissions = false;
                 break;
             }
@@ -39,11 +70,19 @@ public class Permission23Fragment extends Fragment {
             List<String> settingPermissions = new ArrayList<>();
             List<String> rationalePermissions = new ArrayList<>();
             for (String permission : permissions) {
-                if (PermissionChecker.checkSelfPermission(getContext(), permission) != PermissionChecker.PERMISSION_GRANTED) {
-                    if (!shouldShowRequestPermissionRationale(permission)) {
-                        settingPermissions.add(permission);
-                    } else {
-                        rationalePermissions.add(permission);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission != null) {
+                    try {
+                        if ((int)checkSelfPermission.invoke(permissionChecker, getContext(), permission) != PERMISSION_GRANTED) {
+                            if (!shouldShowRequestPermissionRationale(permission)) {
+                                settingPermissions.add(permission);
+                            } else {
+                                rationalePermissions.add(permission);
+                            }
+                        }
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
                     }
                 }
             }
