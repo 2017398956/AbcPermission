@@ -36,7 +36,8 @@ public class MainActivity extends Activity {
 
     public void onClick(View view) {
         if (view.getId() == R.id.bn_contact) {
-            readContacts();
+            Toast.makeText(this, readContacts(), Toast.LENGTH_SHORT).show();
+
         } else if (view.getId() == R.id.bn_file) {
             readFile();
 //            Cursor cursor = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,
@@ -49,7 +50,7 @@ public class MainActivity extends Activity {
     private String readContacts() {
         Toast.makeText(ApplicationConstant.application, "readContacts", Toast.LENGTH_SHORT).show();
         // startActivity(new Intent(this, MainActivity.class));
-        return "";
+        return "readContacts";
     }
 
     @GetPermissions4AndroidX({Manifest.permission.WRITE_EXTERNAL_STORAGE})
