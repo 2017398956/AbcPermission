@@ -10,7 +10,9 @@ import android.widget.Toast;
 import java.lang.reflect.Field;
 
 import personal.nfl.abcpermission.bean.NewBean;
+import personal.nfl.abcpermission.kotlin.KotlinTest;
 import personal.nfl.permission.annotation.GetPermissions4AndroidX;
+import personal.nfl.permission.annotation.TestAnnotation;
 import personal.nfl.permission.support.constant.ApplicationConstant;
 
 /**
@@ -32,6 +34,8 @@ public class MainActivity extends Activity {
             Log.e("NFL", e.toString());
             e.printStackTrace();
         }
+
+        new KotlinTest().test();
     }
 
     public void onClick(View view) {
@@ -58,4 +62,5 @@ public class MainActivity extends Activity {
         Toast.makeText(ApplicationConstant.application, "readFile", Toast.LENGTH_SHORT).show();
         return;
     }
+
 }
