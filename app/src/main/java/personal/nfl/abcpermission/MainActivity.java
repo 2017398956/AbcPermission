@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
         try {
             Class clazz = Class.forName(NewBean.class.getName());
             Field field = clazz.getDeclaredField("company");
-            Toast.makeText(this, "ok", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(this, "ok", Toast.LENGTH_SHORT).show();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (NoSuchFieldException e) {
@@ -35,13 +35,13 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
 
-        new KotlinTest().test();
+
     }
 
     public void onClick(View view) {
         if (view.getId() == R.id.bn_contact) {
-            Toast.makeText(this, readContacts(), Toast.LENGTH_SHORT).show();
-
+            // Toast.makeText(this, readContacts(), Toast.LENGTH_SHORT).show();
+            new KotlinTest().test(this);
         } else if (view.getId() == R.id.bn_file) {
             readFile();
 //            Cursor cursor = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,

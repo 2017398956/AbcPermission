@@ -18,7 +18,7 @@ dependencies {
     implementation 'org.aspectj:aspectjrt:1.9.6'
     implementation project(':permissionAnnotation')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "org.jetbrains.kotlin:kotlin-annotation-processing:$kotlin_version"
+    //api "org.jetbrains.kotlin:kotlin-annotation-processing:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-annotation-processing-runtime:$kotlin_version"
 }
 
