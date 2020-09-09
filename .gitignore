@@ -9,3 +9,4 @@
 .externalNativeBuild
 /.idea
 /repo
+/gradle_plugin_android_aspectjx/repo
