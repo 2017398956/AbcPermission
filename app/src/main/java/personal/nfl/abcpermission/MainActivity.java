@@ -42,6 +42,7 @@ public class MainActivity extends Activity {
         if (view.getId() == R.id.bn_contact) {
             // Toast.makeText(this, readContacts(), Toast.LENGTH_SHORT).show();
             new KotlinTest().test(this);
+            new PermissionTest().test(this);
         } else if (view.getId() == R.id.bn_file) {
             readFile();
 //            Cursor cursor = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,
@@ -57,7 +58,7 @@ public class MainActivity extends Activity {
         return "readContacts";
     }
 
-    @GetPermissions4AndroidX({Manifest.permission.WRITE_EXTERNAL_STORAGE})
+//    @GetPermissions4AndroidX({Manifest.permission.WRITE_EXTERNAL_STORAGE})
     private void readFile() {
         Toast.makeText(ApplicationConstant.application, "readFile", Toast.LENGTH_SHORT).show();
         return;
