@@ -1,0 +1,48 @@
+apply plugin: 'maven'
+
+version=LIB_VERSION
+group = LIB_GROUP
+def nexusRepositoryUrl=nexusReleases
+
+if (!LIB_ISRELEASE.toBoolean()){
+    version = "${version}-SNAPSHOT"
+    nexusRepositoryUrl=nexusSnapshots
+}
+
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            repository(url: "$nexusRepositoryUrl") {
+//                authentication(userName: nexusUserName, password: nexusPassword)
+//            }
+//
+//            pom.project {
+//                name LIB_ARTIFACT
+//                groupId LIB_GROUP
+//                artifactId LIB_ARTIFACT
+//                version version
+//                packaging 'jar'
+//                description LIB_DES
+//                licenses {
+//                    license {
+//                        name LICENCE_NAME
+//                        url LICENCE_URL
+//                        distribution LICENCE_DIST
+//                    }
+//                }
+//                developers {
+//                    developer {
+//                        id DEVELOPER_ID
+//                        name DEVELOPER_NAME
+//                        email DEVELOPER_EMAIL
+//                    }
+//                }
+//
+//                organization {
+//                    name ORGANIZATION_NAME
+//                    url ORGANIZATION_URL
+//                }
+//            }
+//        }
+//    }
+//}

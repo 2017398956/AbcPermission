@@ -1,0 +1,33 @@
+apply from: 'ext.gradle'
+
+buildscript {
+    repositories {
+        mavenLocal()
+        google()
+        jcenter()
+    }
+}
+
+allprojects {
+    buildscript {
+        repositories {
+            mavenLocal()
+            google()
+            jcenter {
+               url 'https://jcenter.bintray.com'
+            }
+        }
+    }
+    
+    dependencies {
+        repositories {
+            mavenLocal()
+            google()
+            jcenter {
+                url 'https://jcenter.bintray.com'
+            }
+        }
+    }
+
+    apply plugin: 'maven'
+}
