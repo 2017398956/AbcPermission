@@ -2,14 +2,17 @@ apply plugin: 'com.android.application'
 // 这个是测试 permissionPlugin 或 com.github.2017398956:abcpermission-plugin:{version} 时引用的
 // apply plugin: 'abcpermission.plugin'
 apply plugin: 'AspectPlugin'
-//apply plugin: 'android-aspectjx'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+//apply plugin: 'android-aspectjx'
 // 这里的代码只在不用 apply plugin: 'abcpermission.plugin' 和 apply plugin: 'AspectPlugin' 时使用
-// import org.aspectj.bridge.IMessage
-// import org.aspectj.bridge.MessageHandler
-// import org.aspectj.tools.ajc.Main
+// 需要在根 build.gradle 中开启下面两个依赖后才能导入
+//classpath 'org.aspectj:aspectjtools:1.9.6'
+//classpath 'org.aspectj:aspectjweaver:1.9.6'
+//import org.aspectj.bridge.IMessage
+//import org.aspectj.bridge.MessageHandler
+//import org.aspectj.tools.ajc.Main
 
 //kapt {
 //    arguments {
@@ -64,14 +67,19 @@ dependencies {
 // 如果 module 是 library 则 将 applicationVariants 替换为 libraryVariants
 //android.applicationVariants.all { variant ->
 //    Task javaCompile = variant.getJavaCompileProvider().get()
-//    println(javaCompile)
+//    println("This is javaComplile:" + javaCompile)
+//    project.logger.log(LogLevel.ERROR, "=====================")
 //    javaCompile.doLast {
+//        String kotlinPath = "E:\\Android\\Projects\\AbcPermission\\app\\build\\tmp\\kotlin-classes\\debug;"
+//        kotlinPath = ""
+//        String aspectpathTemp = kotlinPath + javaCompile.classpath.asPath
+//        String classpathTemp = kotlinPath + javaCompile.classpath.asPath
 //        String[] args = ["-showWeaveInfo",
 //                         "-1.5",
 //                         "-inpath", javaCompile.destinationDir.toString(),
-//                         "-aspectpath", javaCompile.classpath.asPath,
+//                         "-aspectpath", aspectpathTemp,
 //                         "-d", javaCompile.destinationDir.toString(),
-//                         "-classpath", javaCompile.classpath.asPath,
+//                         "-classpath", classpathTemp,
 //                         "-bootclasspath", android.bootClasspath.join(File.pathSeparator)]
 //        MessageHandler handler = new MessageHandler(true)
 //        new Main().run(args, handler)
@@ -97,7 +105,7 @@ dependencies {
 
 //aspectjx {
 //    //关闭AspectJX功能
-//    enabled false
+////    enabled false
 //    //忽略所有的class文件及jar文件，相当于AspectJX不生效
 //    // exclude '*'
 //    // exclude 'com.google'
