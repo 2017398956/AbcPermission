@@ -1,5 +1,5 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-
+//import com.hujiang.gradle.plugin.android.aspectjx.*;
 buildscript {
     ext.kotlin_version = '1.4.0'
 
@@ -31,9 +31,9 @@ buildscript {
         // 会造成重复引用，如果要测试必须先去掉这三个 module 的引用
         // classpath 'personal.nfl.permission:permissionPlugin:0.2.0'
         // 本项目中只使用 AspectPlugin 最为方便
-         classpath 'com.github.2017398956:AspectPlugin:1.5'
+//         classpath 'com.github.2017398956:AspectPlugin:1.5'
         // classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.10'
-//        classpath 'personal.nfl.aspectj:gradle-android-plugin-aspectjx:0.0.1'
+        classpath 'personal.nfl.aspectj:gradle-android-plugin-aspectjx:0.0.2'
         // classpath fileTree(dir:'plugins', include:['*.jar'])
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"

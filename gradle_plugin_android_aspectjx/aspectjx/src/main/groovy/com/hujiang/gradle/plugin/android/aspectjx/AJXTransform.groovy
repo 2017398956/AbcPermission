@@ -64,18 +64,21 @@ class AJXTransform extends Transform {
     void transform(TransformInvocation transformInvocation) throws TransformException, InterruptedException, IOException {
 
         Project project = ajxProcedure.project
-
+        // 获取 任务 的名称
         String transformTaskVariantName = transformInvocation.context.getVariantName()
+        project.logger.error("Task name is " + transformInvocation + " . Print by nfl.")
         VariantCache variantCache = new VariantCache(ajxProcedure.project, ajxProcedure.ajxCache, transformTaskVariantName)
         
         ajxProcedure.with(new CheckAspectJXEnableProcedure(project, variantCache, transformInvocation))
 
         if (transformInvocation.incremental) {
+            project.logger.error("Current task is incremental build.")
             //incremental build
             ajxProcedure.with(new UpdateAspectFilesProcedure(project, variantCache, transformInvocation))
             ajxProcedure.with(new UpdateInputFilesProcedure(project, variantCache, transformInvocation))
             ajxProcedure.with(new UpdateAspectOutputProcedure(project, variantCache, transformInvocation))
         } else {
+            project.logger.error("Current task is not incremental build.")
             //delete output and cache before full build
             transformInvocation.outputProvider.deleteAll()
             variantCache.reset()

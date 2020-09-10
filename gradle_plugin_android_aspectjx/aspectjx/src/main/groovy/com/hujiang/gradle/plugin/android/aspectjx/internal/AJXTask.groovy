@@ -96,6 +96,7 @@ class AJXTask implements ITask {
 
         MessageHandler handler = new MessageHandler(true)
         Main m = new Main()
+        // log.error("my args is " + args)
         m.run(args as String[], handler)
         for (IMessage message : handler.getMessages(null, true)) {
             switch (message.getKind()) {

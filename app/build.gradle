@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 // 这个是测试 permissionPlugin 或 com.github.2017398956:abcpermission-plugin:{version} 时引用的
 // apply plugin: 'abcpermission.plugin'
-apply plugin: 'AspectPlugin'
+//apply plugin: 'AspectPlugin'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-//apply plugin: 'android-aspectjx'
+apply plugin: 'android-aspectjx'
 // 这里的代码只在不用 apply plugin: 'abcpermission.plugin' 和 apply plugin: 'AspectPlugin' 时使用
 // 需要在根 build.gradle 中开启下面两个依赖后才能导入
 //classpath 'org.aspectj:aspectjtools:1.9.6'
@@ -103,10 +103,12 @@ dependencies {
 //    }
 //}
 
-//aspectjx {
-//    //关闭AspectJX功能
-////    enabled false
-//    //忽略所有的class文件及jar文件，相当于AspectJX不生效
-//    // exclude '*'
-//    // exclude 'com.google'
-//}
+aspectjx {
+    //关闭AspectJX功能
+    enabled false
+    //忽略所有的class文件及jar文件，相当于AspectJX不生效
+    // exclude '*'
+     exclude 'com.google'
+    exclude 'androidx.*'
+    exclude 'shark.*'
+}
