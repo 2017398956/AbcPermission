@@ -17,7 +17,7 @@ package com.hujiang.gradle.plugin.android.aspectjx.internal.model
 import com.google.gson.annotations.SerializedName
 
 /**
- * class description here
+ * 对应 gradle 中的配置信息
  * @author simon
  * @version 1.0.0
  * @since 2018-04-13

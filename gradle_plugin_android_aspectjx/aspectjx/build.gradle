@@ -49,7 +49,7 @@ apply from: 'maven.gradle'
 
 // 这里是我添加的生成本地 maven 库
 group = 'personal.nfl.aspectj'
-version = '0.0.2'
+version = '0.0.3'
 
 // 先生成本地 maven 仓库 repo
 uploadArchives {

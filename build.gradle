@@ -33,7 +33,7 @@ buildscript {
         // 本项目中只使用 AspectPlugin 最为方便
 //         classpath 'com.github.2017398956:AspectPlugin:1.5'
         // classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.10'
-        classpath 'personal.nfl.aspectj:gradle-android-plugin-aspectjx:0.0.2'
+        classpath 'personal.nfl.aspectj:gradle-android-plugin-aspectjx:0.0.3'
         // classpath fileTree(dir:'plugins', include:['*.jar'])
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"

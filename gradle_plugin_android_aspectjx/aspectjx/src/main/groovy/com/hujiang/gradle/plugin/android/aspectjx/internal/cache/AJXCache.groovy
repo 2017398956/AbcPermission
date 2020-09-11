@@ -44,24 +44,29 @@ class AJXCache {
 
     AJXCache(Project proj) {
         this.project = proj
-
         init()
     }
 
+    /**
+     * AJXCache 在实例化的时候没有为配置文件赋值，会通过代码主动加载 build.gradle 中的配置选项
+     */
     private void init() {
+        // 在引入该插件的 module 中的 build 目录下的 intermediates 文件夹下建立 ajx 缓存目录
         cachePath = project.buildDir.absolutePath + File.separator + AndroidProject.FD_INTERMEDIATES + "/ajx"
+        // 扩展配置文件路径（该配置文件是 json 格式的）
         extensionConfigPath = cachePath + File.separator + "extensionconfig.json"
-
         if (!cacheDir.exists()) {
             cacheDir.mkdirs()
         }
-
         //extension config
         File extensionConfig = new File(extensionConfigPath)
+        // 如果缓存中有配置文件信息，则读取缓存中的配置选项
         if (extensionConfig.exists()) {
-            ajxExtensionConfig = AJXUtils.optFromJsonString(FileUtils.readFileToString(extensionConfig), AJXExtensionConfig.class)
+            ajxExtensionConfig = AJXUtils.optFromJsonString(
+                    FileUtils.readFileToString(extensionConfig),
+                    AJXExtensionConfig.class)
         }
-
+        // 如果用户没有设置配置文件，则使用默认的配置
         if (ajxExtensionConfig == null) {
             ajxExtensionConfig = new AJXExtensionConfig()
         }

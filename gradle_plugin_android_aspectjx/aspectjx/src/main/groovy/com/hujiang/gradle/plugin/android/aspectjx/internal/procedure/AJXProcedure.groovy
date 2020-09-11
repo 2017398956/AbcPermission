@@ -34,18 +34,16 @@ class AJXProcedure extends AbsProcedure {
 
     AJXProcedure(Project proj) {
         super(proj, null, null)
-
         project = proj
         ajxCache = new AJXCache(project)
-
         System.setProperty("aspectj.multithreaded", "true")
-
         def configuration = new AJXConfig(project)
 
         project.afterEvaluate {
             def variants = configuration.variants
             if (variants && !variants.isEmpty()) {
                 def variant = variants[0]
+                // 获得 java 编译器
                 JavaCompile javaCompile
                 if (variant.hasProperty('javaCompileProvider')) {
                     //android gradle 3.3.0 +
@@ -61,22 +59,22 @@ class AJXProcedure extends AbsProcedure {
             ajxCache.bootClassPath = configuration.bootClasspath.join(File.pathSeparator)
 
             AJXExtension ajxExtension = project.aspectjx
-            project.logger.info "project.aspectjx=${ajxExtension}"
+            project.logger.debug "project.aspectjx=${ajxExtension}"
 
             //当过滤条件发生变化，clean掉编译缓存
             if (ajxCache.isExtensionChanged(ajxExtension)) {
                 project.tasks.findByName('preBuild').dependsOn(project.tasks.findByName("clean"))
             }
-
+            // 将新的配置选项写入
             ajxCache.putExtensionConfig(ajxExtension)
         }
 
-        //set aspectj build log output dir
+        // Android 打包日志文件目录
         File logDir = new File(project.buildDir.absolutePath + File.separator + "outputs" + File.separator + "logs")
         if (!logDir.exists()) {
             logDir.mkdirs()
         }
-
+        // 将 aspectj 的日志追加到 Android 打包的日志文件中
         Dump.setDumpDirectory(logDir.absolutePath)
     }
 }
