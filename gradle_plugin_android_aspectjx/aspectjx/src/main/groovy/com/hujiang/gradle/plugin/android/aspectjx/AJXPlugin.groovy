@@ -46,14 +46,14 @@ class AJXPlugin implements Plugin<Project> {
                 compile 'org.aspectj:aspectjrt:1.9.5'
             }
         }
-
+        // aspectjx 的扩展字段，可以在 build.gradle 中直接配置
         project.extensions.create("aspectjx", AJXExtension)
 
         if (project.plugins.hasPlugin(AppPlugin)) {
-            //build time trace
+            // build time trace
             project.gradle.addListener(new TimeTrace())
 
-            //register AspectTransform
+            // register AspectTransform
             AppExtension android = project.extensions.getByType(AppExtension)
             android.registerTransform(new AJXTransform(project))
         }

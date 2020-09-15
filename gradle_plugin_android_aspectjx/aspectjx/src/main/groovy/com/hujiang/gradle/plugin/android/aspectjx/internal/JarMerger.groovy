@@ -16,7 +16,10 @@ package com.hujiang.gradle.plugin.android.aspectjx.internal
 
 import com.android.annotations.NonNull
 import com.google.common.io.Closer
+import com.hujiang.gradle.plugin.android.aspectjx.AJXPlugin
 import org.apache.commons.io.FileUtils
+import org.apache.commons.logging.LogFactory
+import org.slf4j.LoggerFactory
 
 import java.io.File
 import java.io.FileInputStream
@@ -30,9 +33,7 @@ import java.util.zip.ZipInputStream
 /**
  * class description here
  *
- * @author simon
- * @version 1.0.0
- * @since 2016-10-19
+ * @author simon* @version 1.0.0* @since 2016-10-19
  */
 class JarMerger {
     private final byte[] buffer = new byte[8192];
@@ -44,6 +45,11 @@ class JarMerger {
 
     private IZipEntryFilter filter
 
+    /**
+     *
+     * @param jarFile 将 class 文件合并到这个 jar 包中
+     * @throws IOException
+     */
     JarMerger(@NonNull File jarFile) throws IOException {
         this.jarFile = jarFile
     }
@@ -51,10 +57,8 @@ class JarMerger {
     private void init() throws IOException {
         if (closer == null) {
             FileUtils.forceMkdir(jarFile.getParentFile())
-
             closer = Closer.create()
-
-            FileOutputStream fos = closer.register(new FileOutputStream(jarFile))
+            FileOutputStream fos = closer.register(new FileOutputStream(jarFile , true))
             jarOutputStream = closer.register(new JarOutputStream(fos))
         }
     }
@@ -66,8 +70,14 @@ class JarMerger {
         this.filter = filter
     }
 
+    /**
+     *
+     * @param folder 存放 class 文件的文件夹
+     * @throws IOException
+     */
     void addFolder(@NonNull File folder) throws IOException {
         init()
+
         try {
             addFolderWithPath(folder, "")
         } catch (IZipEntryFilter.ZipAbortException e) {
@@ -81,11 +91,13 @@ class JarMerger {
         if (files != null) {
             for (File file : files) {
                 if (file.isFile()) {
+                    // entryPath 会直接获得包名文件夹下的名称如：personal/nfl/abcpermission/TestBean.class
                     String entryPath = path + file.getName()
+                    LoggerFactory.getLogger(AJXPlugin).error("entryPath:" + entryPath)
                     if (filter == null || filter.checkEntry(entryPath)) {
                         // new entry
                         jarOutputStream.putNextEntry(new JarEntry(entryPath))
-
+                        LoggerFactory.getLogger(AJXPlugin).error("has put entry:" + entryPath)
                         // put the file content
                         Closer localCloser = Closer.create()
                         try {
@@ -94,6 +106,9 @@ class JarMerger {
                             while ((count = fis.read(buffer)) != -1) {
                                 jarOutputStream.write(buffer, 0, count)
                             }
+                            LoggerFactory.getLogger(AJXPlugin).error("has write entry:" + entryPath + " and target file size = " + jarFile.length())
+                        } catch (Exception e) {
+                            LoggerFactory.getLogger(AJXPlugin).error("addClassFile:", e)
                         } finally {
                             localCloser.close()
                         }
@@ -214,7 +229,7 @@ class JarMerger {
         /**
          * Checks a file for inclusion in a Jar archive.
          * @param archivePath the archive file path of the entry
-         * @return <code>true</code> if the file should be included.
+         * @return <code> true</code> if the file should be included.
          * @throws IZipEntryFilter.ZipAbortException if writing the file should be aborted.
          */
         boolean checkEntry(String archivePath) throws IZipEntryFilter.ZipAbortException

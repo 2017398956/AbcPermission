@@ -41,7 +41,7 @@ class UpdateAspectOutputProcedure extends AbsProcedure {
 
     @Override
     boolean doWorkContinuously() {
-        project.logger.debug("~~~~~~~~~~~~~~~~~~~~update aspect output")
+        project.logger.error("~~~~~~~~~~~~~~~~~~~~update aspect output")
         ajxTaskManager.aspectPath << variantCache.aspectDir
         ajxTaskManager.classPath << variantCache.includeFileDir
         ajxTaskManager.classPath << variantCache.excludeFileDir

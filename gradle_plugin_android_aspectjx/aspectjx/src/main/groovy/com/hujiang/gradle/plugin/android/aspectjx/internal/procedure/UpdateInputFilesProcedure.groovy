@@ -36,7 +36,7 @@ class UpdateInputFilesProcedure extends AbsProcedure {
 
     @Override
     boolean doWorkContinuously() {
-        project.logger.debug("~~~~~~~~~~~~~~~~~~~~update input files")
+        project.logger.error("~~~~~~~~~~~~~~~~~~~~update input files")
         BatchTaskScheduler taskScheduler = new BatchTaskScheduler()
 
         transformInvocation.inputs.each { TransformInput input ->

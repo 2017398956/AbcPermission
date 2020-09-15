@@ -33,7 +33,7 @@ class CheckAspectJXEnableProcedure extends AbsProcedure {
 
     @Override
     boolean doWorkContinuously() {
-        project.logger.debug("~~~~~~~~~~~~~~~~~~~~~~~ check aspectjx enable")
+        project.logger.error("~~~~~~~~~~~~~~~~~~~~~~~ check aspectjx enable")
 
         //check if exclude all files or not
         boolean isExcludeAll = false
@@ -59,10 +59,11 @@ class CheckAspectJXEnableProcedure extends AbsProcedure {
 
         //aspectjx disabled
         if (!ajxExtensionConfig.enabled || isExcludeAll) {
+            project.logger.error("NFL aspectjx enable is false")
             AJXUtils.doWorkWithNoAspectj(transformInvocation)
             return false
         }
-
+        project.logger.error("NFL aspectjx enable is true")
         return true
     }
 }

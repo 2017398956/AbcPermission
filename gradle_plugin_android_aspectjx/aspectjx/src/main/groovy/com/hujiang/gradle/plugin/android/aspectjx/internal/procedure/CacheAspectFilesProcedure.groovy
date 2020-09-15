@@ -41,7 +41,7 @@ class CacheAspectFilesProcedure extends AbsProcedure {
 
     @Override
     boolean doWorkContinuously() {
-        project.logger.debug("~~~~~~~~~~~~~~~~~~~~cache aspect files")
+        project.logger.error("~~~~~~~~~~~~~~~~~~~~cache aspect files")
         //缓存aspect文件
         BatchTaskScheduler batchTaskScheduler = new BatchTaskScheduler()
 

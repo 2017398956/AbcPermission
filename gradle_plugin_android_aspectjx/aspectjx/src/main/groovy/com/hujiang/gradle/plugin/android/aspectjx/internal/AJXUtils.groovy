@@ -146,25 +146,54 @@ class AJXUtils {
     }
 
     static void fullCopyFiles(TransformInvocation transformInvocation) {
+        LoggerFactory.getLogger(AJXPlugin).error("fullCopyFiles exc")
         transformInvocation.outputProvider.deleteAll()
 
         transformInvocation.inputs.each { TransformInput input ->
+
+            LoggerFactory.getLogger(AJXPlugin).error("NFL directoryInputs file size:" + input.directoryInputs.size())
+            LoggerFactory.getLogger(AJXPlugin).error("NFL jarInputs file size:" + input.jarInputs.size())
+
             input.directoryInputs.each { DirectoryInput dirInput->
                 File excludeJar = transformInvocation.getOutputProvider().getContentLocation("exclude", dirInput.contentTypes, dirInput.scopes, Format.JAR)
+                // excludeJar 有可能为 null
+                if (null == excludeJar){
+                    LoggerFactory.getLogger(AJXPlugin).error("NFL DirectoryInput file:null")
+                }else {
+                    LoggerFactory.getLogger(AJXPlugin).error("NFL DirectoryInput file:" + excludeJar.path)
+                }
+                // excludeJar 的路径对应 ..\your module\build\intermediates\transforms\ajx\debug(release)\51(一般为最后一个编号).jar
+                LoggerFactory.getLogger(AJXPlugin).error("NFL merge origin file:" + dirInput.file.path)
+                // dirInput.file 一般是 ..\build\intermediates\javac\debug(release)\classes
+                // ..\build\tmp\kotlin-classes\debug(release)
+                // ..\build\tmp\kapt3\classes\debug(release)
                 mergeJar(dirInput.file, excludeJar)
             }
-
+            // 将项目中涉及到的 jar 文件复制到 ajx 的目录中
             input.jarInputs.each { JarInput jarInput->
                 def dest = transformInvocation.outputProvider.getContentLocation(jarInput.name
                         , jarInput.contentTypes
                         , jarInput.scopes
                         , Format.JAR)
+                // excludeJar 有可能为 null
+                if (null == JarInput){
+                    LoggerFactory.getLogger(AJXPlugin).error("NFL JarInput file:null")
+                }else {
+                    LoggerFactory.getLogger(AJXPlugin).error("NFL jarInputs file:" + JarInput.name + " ,dest:" + dest.path)
+                }
+                if(null != jarInput.file){
+                    LoggerFactory.getLogger(AJXPlugin).error("          NFL JarInput file :" + jarInput.file.path)
+                }else {
+                    LoggerFactory.getLogger(AJXPlugin).error("          NFL JarInput file is null " )
+                }
+                // 这里会将 jar 文件复制到 ..\your module\build\intermediates\transforms\ajx\debug\0(number).jar
                 FileUtils.copyFile(jarInput.file, dest)
             }
         }
     }
 
     static void incrementalCopyFiles(TransformInvocation transformInvocation) {
+        LoggerFactory.getLogger(AJXPlugin).error("incrementalCopyFiles exc")
         transformInvocation.inputs.each {TransformInput input ->
             input.directoryInputs.each {DirectoryInput dirInput ->
                 if (dirInput.changedFiles.size() > 0) {
@@ -339,7 +368,7 @@ class AJXUtils {
             FileUtils.forceMkdir(targetJar.getParentFile())
         }
 
-        FileUtils.deleteQuietly(targetJar)
+        // FileUtils.deleteQuietly(targetJar)
 
         JarMerger jarMerger = new JarMerger(targetJar)
         try {
@@ -349,10 +378,10 @@ class AJXUtils {
                     return archivePath.endsWith(SdkConstants.DOT_CLASS)
                 }
             })
-
+            // 将 sourceDir 中的 class 文件打包到 targetJar 文件中
             jarMerger.addFolder(sourceDir)
         } catch (Exception e) {
-            LoggerFactory.getLogger(AJXPlugin).warn("mergeJar(${sourceDir}, ${targetJar}", e)
+            LoggerFactory.getLogger(AJXPlugin).error("mergeJar(${sourceDir}, ${targetJar}", e)
         } finally {
             jarMerger.close()
         }

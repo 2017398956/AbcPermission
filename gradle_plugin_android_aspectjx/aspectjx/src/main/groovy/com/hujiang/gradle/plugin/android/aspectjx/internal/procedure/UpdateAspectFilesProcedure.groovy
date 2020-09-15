@@ -39,7 +39,7 @@ class UpdateAspectFilesProcedure extends AbsProcedure {
 
     @Override
     boolean doWorkContinuously() {
-        project.logger.debug("~~~~~~~~~~~~~~~~~~~~update aspect files")
+        project.logger.error("~~~~~~~~~~~~~~~~~~~~update aspect files")
         //update aspect files
         BatchTaskScheduler taskScheduler = new BatchTaskScheduler()
 
