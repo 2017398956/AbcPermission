@@ -58,7 +58,7 @@ class JarMerger {
         if (closer == null) {
             FileUtils.forceMkdir(jarFile.getParentFile())
             closer = Closer.create()
-            FileOutputStream fos = closer.register(new FileOutputStream(jarFile , true))
+            FileOutputStream fos = closer.register(new FileOutputStream(jarFile, true))
             jarOutputStream = closer.register(new JarOutputStream(fos))
         }
     }
@@ -77,11 +77,16 @@ class JarMerger {
      */
     void addFolder(@NonNull File folder) throws IOException {
         init()
-
         try {
             addFolderWithPath(folder, "")
         } catch (IZipEntryFilter.ZipAbortException e) {
             throw new IOException(e)
+        } finally {
+            // 一定要调用 ，否则生成的 jar 包有问题
+            // jarOutputStream.finish();
+            // jarOutputStream.close()
+            // 或
+            closer.close()
         }
     }
 
@@ -93,11 +98,9 @@ class JarMerger {
                 if (file.isFile()) {
                     // entryPath 会直接获得包名文件夹下的名称如：personal/nfl/abcpermission/TestBean.class
                     String entryPath = path + file.getName()
-                    LoggerFactory.getLogger(AJXPlugin).error("entryPath:" + entryPath)
                     if (filter == null || filter.checkEntry(entryPath)) {
                         // new entry
                         jarOutputStream.putNextEntry(new JarEntry(entryPath))
-                        LoggerFactory.getLogger(AJXPlugin).error("has put entry:" + entryPath)
                         // put the file content
                         Closer localCloser = Closer.create()
                         try {
@@ -106,21 +109,23 @@ class JarMerger {
                             while ((count = fis.read(buffer)) != -1) {
                                 jarOutputStream.write(buffer, 0, count)
                             }
-                            LoggerFactory.getLogger(AJXPlugin).error("has write entry:" + entryPath + " and target file size = " + jarFile.length())
                         } catch (Exception e) {
                             LoggerFactory.getLogger(AJXPlugin).error("addClassFile:", e)
                         } finally {
+                            // 一定要调用 ，否则生成的 jar 包有问题
+                            jarOutputStream.flush();
+                            jarOutputStream.closeEntry()
                             localCloser.close()
                         }
-
-                        // close the entry
-                        jarOutputStream.closeEntry()
                     }
                 } else if (file.isDirectory()) {
                     addFolderWithPath(file, path + file.getName() + "/")
                 }
             }
         }
+        // 由于存在递归，所以下面的这些必须调用的语句应该放在 addFolderWithPath 方法执行完毕后调用
+        // 一定要调用 ，否则生成的 jar 包有问题
+        // closer.close()
     }
 
     void addJar(@NonNull File file) throws IOException {
@@ -229,7 +234,7 @@ class JarMerger {
         /**
          * Checks a file for inclusion in a Jar archive.
          * @param archivePath the archive file path of the entry
-         * @return <code> true</code> if the file should be included.
+         * @return <code>  true</code> if the file should be included.
          * @throws IZipEntryFilter.ZipAbortException if writing the file should be aborted.
          */
         boolean checkEntry(String archivePath) throws IZipEntryFilter.ZipAbortException
