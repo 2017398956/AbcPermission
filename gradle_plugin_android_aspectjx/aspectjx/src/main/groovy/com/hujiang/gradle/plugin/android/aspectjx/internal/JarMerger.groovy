@@ -94,13 +94,16 @@ class JarMerger {
             throws IOException, IZipEntryFilter.ZipAbortException {
         File[] files = folder.listFiles()
         if (files != null) {
+            JarEntry jarEntry
             for (File file : files) {
                 if (file.isFile()) {
                     // entryPath 会直接获得包名文件夹下的名称如：personal/nfl/abcpermission/TestBean.class
                     String entryPath = path + file.getName()
                     if (filter == null || filter.checkEntry(entryPath)) {
                         // new entry
-                        jarOutputStream.putNextEntry(new JarEntry(entryPath))
+                        jarEntry = new JarEntry(entryPath)
+                        // jarEntry.setExtra(new byte[0])
+                        jarOutputStream.putNextEntry(jarEntry)
                         // put the file content
                         Closer localCloser = Closer.create()
                         try {
@@ -123,7 +126,7 @@ class JarMerger {
                 }
             }
         }
-        // 由于存在递归，所以下面的这些必须调用的语句应该放在 addFolderWithPath 方法执行完毕后调用
+        // 由于存在递归，所以jarOutputStream 要在 addFolderWithPath 方法彻底执行完毕后才能调用，不能在这里直接调用
         // 一定要调用 ，否则生成的 jar 包有问题
         // closer.close()
     }

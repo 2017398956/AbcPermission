@@ -33,7 +33,6 @@ class OnFinishedProcedure extends AbsProcedure {
     boolean doWorkContinuously() {
         project.logger.error("~~~~~~~~~~~~~~~~~~~~onFinished")
         ajxCache.commit()
-
         return true
     }
 }

@@ -150,10 +150,9 @@ class AJXUtils {
         transformInvocation.outputProvider.deleteAll()
 
         transformInvocation.inputs.each { TransformInput input ->
-
+            LoggerFactory.getLogger(AJXPlugin).error("============================== a new transforminput occur ==============================")
             LoggerFactory.getLogger(AJXPlugin).error("NFL directoryInputs file size:" + input.directoryInputs.size())
-            LoggerFactory.getLogger(AJXPlugin).error("NFL jarInputs file size:" + input.jarInputs.size())
-
+            LoggerFactory.getLogger(AJXPlugin).error("NFL jarInputs file size:" + input.jarInputs.size() + " and ignore logs")
             input.directoryInputs.each { DirectoryInput dirInput->
                 File excludeJar = transformInvocation.getOutputProvider().getContentLocation("exclude", dirInput.contentTypes, dirInput.scopes, Format.JAR)
                 // excludeJar 有可能为 null
@@ -167,7 +166,11 @@ class AJXUtils {
                 // dirInput.file 一般是 ..\build\intermediates\javac\debug(release)\classes
                 // ..\build\tmp\kotlin-classes\debug(release)
                 // ..\build\tmp\kapt3\classes\debug(release)
-                mergeJar(dirInput.file, excludeJar)
+                if (dirInput.file.path.contains("javac")){
+                    // TODO 暂不处理 kotlin 的 class 文件
+                    mergeJar(dirInput.file, excludeJar)
+                }
+
             }
             // 将项目中涉及到的 jar 文件复制到 ajx 的目录中
             input.jarInputs.each { JarInput jarInput->
@@ -176,16 +179,6 @@ class AJXUtils {
                         , jarInput.scopes
                         , Format.JAR)
                 // excludeJar 有可能为 null
-                if (null == JarInput){
-                    LoggerFactory.getLogger(AJXPlugin).error("NFL JarInput file:null")
-                }else {
-                    LoggerFactory.getLogger(AJXPlugin).error("NFL jarInputs file:" + JarInput.name + " ,dest:" + dest.path)
-                }
-                if(null != jarInput.file){
-                    LoggerFactory.getLogger(AJXPlugin).error("          NFL JarInput file :" + jarInput.file.path)
-                }else {
-                    LoggerFactory.getLogger(AJXPlugin).error("          NFL JarInput file is null " )
-                }
                 // 这里会将 jar 文件复制到 ..\your module\build\intermediates\transforms\ajx\debug\0(number).jar
                 FileUtils.copyFile(jarInput.file, dest)
             }

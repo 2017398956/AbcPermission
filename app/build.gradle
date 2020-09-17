@@ -108,7 +108,8 @@ aspectjx {
     enabled false
     //忽略所有的class文件及jar文件，相当于AspectJX不生效
     // exclude '*'
-     exclude 'com.google'
+    exclude 'com.google'
     exclude 'androidx.*'
     exclude 'shark.*'
+    exclude 'org.aspectj.*'
 }
