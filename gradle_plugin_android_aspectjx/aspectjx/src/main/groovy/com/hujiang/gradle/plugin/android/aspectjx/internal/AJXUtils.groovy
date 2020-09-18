@@ -40,6 +40,11 @@ class AJXUtils {
 
     static Gson gson = new GsonBuilder().create()
 
+    /**
+     * 是否是引入 AOP 的 class
+     * @param classFile
+     * @return
+     */
     static boolean isAspectClass(File classFile) {
 
         if (isClassFile(classFile)) {
@@ -148,7 +153,8 @@ class AJXUtils {
     static void fullCopyFiles(TransformInvocation transformInvocation) {
         LoggerFactory.getLogger(AJXPlugin).error("fullCopyFiles exc")
         transformInvocation.outputProvider.deleteAll()
-
+        // 用于把多个文件夹下的 class 文件添加到同一个 jar 包中，另外，这个 classJarMerger 一定要放在 transformInvocation.inputs.each 外
+        JarMerger classJarMerger ;
         transformInvocation.inputs.each { TransformInput input ->
             LoggerFactory.getLogger(AJXPlugin).error("============================== a new transforminput occur ==============================")
             LoggerFactory.getLogger(AJXPlugin).error("NFL directoryInputs file size:" + input.directoryInputs.size())
@@ -160,17 +166,36 @@ class AJXUtils {
                     LoggerFactory.getLogger(AJXPlugin).error("NFL DirectoryInput file:null")
                 }else {
                     LoggerFactory.getLogger(AJXPlugin).error("NFL DirectoryInput file:" + excludeJar.path)
+                    if(null == classJarMerger || !classJarMerger.hasLoaded(excludeJar)){
+                        // 如果 classJarMerger 还未加载 excludeJar 或 加载的不是这个 excludeJar
+                        if (null != classJarMerger){
+                            classJarMerger.close()
+                        }
+                        classJarMerger = new JarMerger(excludeJar)
+                        classJarMerger.setFilter(new JarMerger.IZipEntryFilter() {
+                            @Override
+                            boolean checkEntry(String archivePath) throws JarMerger.IZipEntryFilter.ZipAbortException {
+                                // 兼容 kotlin 代码
+                                return archivePath.endsWith(SdkConstants.DOT_CLASS) || archivePath.endsWith(".kotlin_module")
+                            }
+                        })
+                    }
                 }
                 // excludeJar 的路径对应 ..\your module\build\intermediates\transforms\ajx\debug(release)\51(一般为最后一个编号).jar
                 LoggerFactory.getLogger(AJXPlugin).error("NFL merge origin file:" + dirInput.file.path)
                 // dirInput.file 一般是 ..\build\intermediates\javac\debug(release)\classes
                 // ..\build\tmp\kotlin-classes\debug(release)
                 // ..\build\tmp\kapt3\classes\debug(release)
-                if (dirInput.file.path.contains("javac")){
-                    // TODO 暂不处理 kotlin 的 class 文件
-                    mergeJar(dirInput.file, excludeJar)
+                // 这里不要直接 mergeJar 要用下面的 try
+                // mergeJar(dirInput.file, excludeJar)
+                try {
+                    // 将 sourceDir 中的 class 文件打包到 targetJar 文件中
+                    classJarMerger.addFolder(dirInput.file)
+                } catch (Exception e) {
+                    LoggerFactory.getLogger(AJXPlugin).error("mergeJar(${sourceDir}, ${targetJar}", e)
+                } finally {
+                    // 添加完成不要关闭有可能还在循环中，要等循环完毕再 close
                 }
-
             }
             // 将项目中涉及到的 jar 文件复制到 ajx 的目录中
             input.jarInputs.each { JarInput jarInput->
@@ -182,6 +207,9 @@ class AJXUtils {
                 // 这里会将 jar 文件复制到 ..\your module\build\intermediates\transforms\ajx\debug\0(number).jar
                 FileUtils.copyFile(jarInput.file, dest)
             }
+        }
+        if (null != classJarMerger){
+            classJarMerger.close()
         }
     }
 
@@ -361,7 +389,7 @@ class AJXUtils {
             FileUtils.forceMkdir(targetJar.getParentFile())
         }
 
-        // FileUtils.deleteQuietly(targetJar)
+        FileUtils.deleteQuietly(targetJar)
 
         JarMerger jarMerger = new JarMerger(targetJar)
         try {

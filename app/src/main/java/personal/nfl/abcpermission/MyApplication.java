@@ -5,6 +5,7 @@ import android.app.Application;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.multidex.MultiDex;
@@ -109,6 +110,7 @@ public class MyApplication extends Application {
                         }
                     } else {
                         Toast.makeText(MyApplication.this, "没匹配到", Toast.LENGTH_SHORT).show();
+                        Log.i("NFL" , "请求的权限：" + ret) ;
                     }
                 }
             }

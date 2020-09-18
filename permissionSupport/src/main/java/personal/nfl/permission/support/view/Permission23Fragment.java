@@ -3,6 +3,7 @@ package personal.nfl.permission.support.view;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -57,6 +58,7 @@ public class Permission23Fragment extends Fragment {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         boolean hasPermissions = true;
         for (int result : grantResults) {
+            Log.i("NFL" , "permission result:" + result) ;
             if (result != PERMISSION_GRANTED) {
                 hasPermissions = false;
                 break;
@@ -87,6 +89,9 @@ public class Permission23Fragment extends Fragment {
                     }
                 }
             }
+
+            Log.i("NFL" , "settingPermissions:" + settingPermissions) ;
+            Log.i("NFL" , "rationalePermissions:" + rationalePermissions) ;
 
             if (rationalePermissions.size() > 0) {
                 // 向用户展示需要该权限的原因，用户确定后重新申请

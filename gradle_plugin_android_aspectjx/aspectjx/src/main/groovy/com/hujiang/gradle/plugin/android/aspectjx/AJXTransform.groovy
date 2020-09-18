@@ -79,7 +79,7 @@ class AJXTransform extends Transform {
             ajxProcedure.with(new UpdateAspectOutputProcedure(project, variantCache, transformInvocation))
         } else {
             project.logger.error("Current task is not incremental build.")
-            //delete output and cache before full build
+            // delete output and cache before full build
             transformInvocation.outputProvider.deleteAll()
             variantCache.reset()
 

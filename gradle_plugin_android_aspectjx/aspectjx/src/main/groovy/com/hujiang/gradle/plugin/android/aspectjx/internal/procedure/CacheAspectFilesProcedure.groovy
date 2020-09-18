@@ -19,17 +19,19 @@ import com.android.build.api.transform.JarInput
 import com.android.build.api.transform.TransformInput
 import com.android.build.api.transform.TransformInvocation
 import com.google.common.io.ByteStreams
+import com.hujiang.gradle.plugin.android.aspectjx.AJXPlugin
 import com.hujiang.gradle.plugin.android.aspectjx.internal.AJXUtils
 import com.hujiang.gradle.plugin.android.aspectjx.internal.cache.VariantCache
 import com.hujiang.gradle.plugin.android.aspectjx.internal.concurrent.BatchTaskScheduler
 import com.hujiang.gradle.plugin.android.aspectjx.internal.concurrent.ITask
+import org.apache.commons.logging.LogFactory
 import org.gradle.api.Project
 
 import java.util.jar.JarEntry
 import java.util.jar.JarFile
 
 /**
- * class description here
+ * 将需要 aop 处理的文件复制到缓存目录 ../build/intermediates/ajx/(release)debug/aspecs中
  * @author simon
  * @version 1.0.0
  * @since 2018-04-23
@@ -80,14 +82,14 @@ class CacheAspectFilesProcedure extends AbsProcedure {
                                 byte[] bytes = ByteStreams.toByteArray(jarFile.getInputStream(jarEntry))
                                 File cacheFile = new File(variantCache.aspectPath + File.separator + entryName)
                                 if (AJXUtils.isAspectClass(bytes)) {
+                                    // 如果 jar 包中的 class 文件需要 aop 处理，那么将其复制到
+                                    // ../build/intermediates/ajx/(release)debug/aspecs 文件夹中
                                     project.logger.debug("~~~~~~~~~~~collect aspect file:${entryName}")
                                     variantCache.add(bytes, cacheFile)
                                 }
                             }
                         }
-
                         jarFile.close()
-
                         return null
                     }
                 })
@@ -97,6 +99,7 @@ class CacheAspectFilesProcedure extends AbsProcedure {
         batchTaskScheduler.execute()
 
         if (AJXUtils.countOfFiles(variantCache.aspectDir) == 0) {
+            // TODO 如果缓存文件夹中没有需要 aop 的文件，好像不需要这一步
             AJXUtils.doWorkWithNoAspectj(transformInvocation)
             return false
         }

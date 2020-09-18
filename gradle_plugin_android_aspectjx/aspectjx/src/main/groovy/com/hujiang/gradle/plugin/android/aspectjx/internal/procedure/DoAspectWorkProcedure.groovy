@@ -25,7 +25,7 @@ import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
 
 /**
- * class description here
+ * 执行 AOP 操作
  * @author simon
  * @version 1.0.0
  * @since 2018-04-23

@@ -69,6 +69,10 @@ class AJXTask implements ITask {
         if (outputDir != null && !outputDir.isEmpty()) {
             args << '-d'
             args << outputDir
+        }else {
+            // 使用 inpath 的目录
+            args << '-d'
+            args << getInPath().join(File.pathSeparator)
         }
 
         if (outputJar != null && !outputJar.isEmpty()) {
@@ -96,8 +100,8 @@ class AJXTask implements ITask {
 
         MessageHandler handler = new MessageHandler(true)
         Main m = new Main()
-        // log.error("my args is " + args)
-        m.run(args as String[], handler)
+        log.error("my args is " + args)
+//        m.run(args as String[], handler)
         for (IMessage message : handler.getMessages(null, true)) {
             switch (message.getKind()) {
                 case IMessage.ABORT:

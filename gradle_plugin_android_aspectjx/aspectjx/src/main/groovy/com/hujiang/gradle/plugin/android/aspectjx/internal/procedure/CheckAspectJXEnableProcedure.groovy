@@ -20,10 +20,11 @@ import com.hujiang.gradle.plugin.android.aspectjx.internal.cache.VariantCache
 import org.gradle.api.Project
 
 /**
- * class description here
+ * 将项目引用的 jar 包复制及生成的 class 文件打包到 ajx 的缓存目录中
  * @author simon
  * @version 1.0.0
  * @since 2018-04-23
+ * modified by nfl
  */
 class CheckAspectJXEnableProcedure extends AbsProcedure {
 

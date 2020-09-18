@@ -28,7 +28,9 @@
 //@Aspect
 //public class AutoCreate12 {
 //
-//    private String[] permissions = {"android.permission.WRITE_CONTACTS"};
+//    // private String[] permissions = {"android.permission.WRITE_CONTACTS"};
+//    private String[] permissions = {"android.permission.WRITE_EXTERNAL_STORAGE"};
+//
 //    private final String METHOD_CALL = "call(* personal.nfl.abcpermission.kotlin.KotlinTest.test(..))";
 //    private final String METHOD_EXE = "execution(* personal.nfl.abcpermission.kotlin.KotlinTest.test(..))";
 //    private ProceedingJoinPoint proceedingJoinPoint;

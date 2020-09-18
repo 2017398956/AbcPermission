@@ -40,6 +40,7 @@ class JarMerger {
 
     @NonNull
     private final File jarFile
+    // 不要在内部关闭，统一在外部嗲用 JarMerger.close() 方法进行关闭
     private Closer closer
     private JarOutputStream jarOutputStream
 
@@ -82,11 +83,12 @@ class JarMerger {
         } catch (IZipEntryFilter.ZipAbortException e) {
             throw new IOException(e)
         } finally {
-            // 一定要调用 ，否则生成的 jar 包有问题
+            // 一定要调用 ，否则生成的 jar 包有问题，但不要在这里调用，要在 JarMerger 不再使用后调用
+            // 如果在这里调用将不能继续往 jar 包中添加文件
             // jarOutputStream.finish();
             // jarOutputStream.close()
             // 或
-            closer.close()
+            // closer.close()
         }
     }
 
@@ -189,15 +191,14 @@ class JarMerger {
         }
     }
 
-    public void addEntry(@NonNull String path, @NonNull byte[] bytes) throws IOException {
+    void addEntry(@NonNull String path, @NonNull byte[] bytes) throws IOException {
         init()
-
         jarOutputStream.putNextEntry(new JarEntry(path))
         jarOutputStream.write(bytes)
         jarOutputStream.closeEntry()
     }
 
-    public void close() throws IOException {
+    void close() throws IOException {
         if (closer != null) {
             closer.close()
         }
@@ -207,7 +208,7 @@ class JarMerger {
      * Classes which implement this interface provides a method to check whether a file should
      * be added to a Jar file.
      */
-    public static interface IZipEntryFilter {
+    static interface IZipEntryFilter {
         /**
          * An exception thrown during packaging of a zip file into APK file.
          * This is typically thrown by implementations of
@@ -237,9 +238,26 @@ class JarMerger {
         /**
          * Checks a file for inclusion in a Jar archive.
          * @param archivePath the archive file path of the entry
-         * @return <code>  true</code> if the file should be included.
+         * @return <code>    true</code> if the file should be included.
          * @throws IZipEntryFilter.ZipAbortException if writing the file should be aborted.
          */
         boolean checkEntry(String archivePath) throws IZipEntryFilter.ZipAbortException
+    }
+
+    /**
+     * 是否已经加载 filePath
+     * @param filePath
+     * @return
+     */
+    boolean hasLoaded(String filePath){
+        return hasLoaded(new File(filePath))
+    }
+
+    boolean hasLoaded(File file){
+        if (jarFile == null || !jarFile.isFile()){
+            return false
+        }else {
+            return jarFile.equals(file)
+        }
     }
 }

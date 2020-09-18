@@ -86,6 +86,9 @@ class AJXCache {
         init()
     }
 
+    /**
+     * 将最新的配置信息写入 ../build/intermediates/ajx/extensionconfig.json
+     */
     void commit() {
         project.logger.debug("putExtensionConfig:${extensionConfigFile}")
 

@@ -19,7 +19,7 @@ import com.hujiang.gradle.plugin.android.aspectjx.internal.cache.VariantCache
 import org.gradle.api.Project
 
 /**
- * class description here
+ * 将最新的配置信息写入 ../build/intermediates/ajx/extensionconfig.json 中，所有 ajx 相关的 transform 任务执行完毕
  * @author simon
  * @version 1.0.0
  * @since 2018-04-23
