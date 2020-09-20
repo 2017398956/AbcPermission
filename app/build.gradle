@@ -65,62 +65,6 @@ dependencies {
 
 // 这里的代码只在不用 apply plugin: 'abcpermission.plugin' 和 apply plugin: 'AspectPlugin' 时使用
 // 如果 module 是 library 则 将 applicationVariants 替换为 libraryVariants
-android.applicationVariants.all { variant ->
-    Task javaCompile = variant.getJavaCompileProvider().get()
-    println("This is javaComplile:" + javaCompile)
-    project.logger.log(LogLevel.ERROR, "=====================")
-    javaCompile.doLast {
-        String aspectPath = javaCompile.classpath.asPath
-        String dPath = javaCompile.destinationDir.toString() ;
-        String classpath = javaCompile.classpath.asPath
-        String kotlinPath = "E:\\Android\\Projects\\AbcPermission\\app\\build\\tmp\\kotlin-classes\\debug;"
-        // kotlinPath = ""
-        String inPath = kotlinPath + javaCompile.destinationDir.toString()
-
-        String[] args = ["-showWeaveInfo",
-                         "-1.7",
-                         "-inpath", inPath ,
-                         "-aspectpath", aspectPath,
-                         "-d", dPath ,
-                         "-classpath", classpath,
-                         "-bootclasspath", android.bootClasspath.join(File.pathSeparator)]
-        MessageHandler handler = new MessageHandler(true)
-        new Main().run(args, handler)
-        def log = project.logger
-        for (IMessage message : handler.getMessages(null, true)) {
-            switch (message.getKind()) {
-                case IMessage.ABORT:
-                case IMessage.ERROR:
-                case IMessage.FAIL:
-                    log.error message.message, message.thrown
-                    break;
-                case IMessage.WARNING:
-                case IMessage.INFO:
-                    log.info message.message, message.thrown
-                    break;
-                case IMessage.DEBUG:
-                    log.debug message.message, message.thrown
-                    break;
-            }
-        }
-    }
-}
-
-aspectjx {
-    //关闭AspectJX功能
-    enabled false
-    // ajcArgs 这里可以配置 aop 操作所需要的参数
-    // ajcArgs ''
-    //忽略所有的class文件及jar文件，相当于AspectJX不生效
-    // exclude '*'
-    exclude 'com.google'
-    exclude 'androidx.*'
-    exclude 'shark.*'
-    exclude 'org.aspectj.*'
-}
-
-
-
 //android.applicationVariants.all { variant ->
 //    Task javaCompile = variant.getJavaCompileProvider().get()
 //    println("This is javaComplile:" + javaCompile)
@@ -131,33 +75,38 @@ aspectjx {
 //        String classpath = javaCompile.classpath.asPath
 //
 //        String kotlinPath = ""
+//        String kotlinDPath = ""
 //        if (dPath.contains("debug\\classes")) {
 //            kotlinPath = javaCompile.temporaryDir.getParentFile().path + File.separator + "kotlin-classes" + File.separator + "debug"
+//            kotlinDPath = javaCompile.temporaryDir.getParentFile().path + File.separator + "kapt3" + File.separator + "classes" + File.separator + "debug"
 //        } else {
 //            kotlinPath = javaCompile.temporaryDir.getParentFile().path + File.separator + "kotlin-classes" + File.separator + "release"
+//            kotlinDPath = javaCompile.temporaryDir.getParentFile().path + File.separator + "kapt3" + File.separator + "classes" + File.separator + "release"
 //        }
-////        String inPath = kotlinPath + ";" + javaCompile.destinationDir.toString()
-//        String inPath = javaCompile.destinationDir.toString()
+//        println("This is javaC path:" + javaCompile.destinationDir.toString())
+//        String inPath = kotlinPath + ";" + javaCompile.destinationDir.toString()
+////        String inPath = javaCompile.destinationDir.toString()
 //        println("aspectj kotlinPath is " + kotlinPath)
 //        String[] args = ["-showWeaveInfo",
-//                         "-1.7",
+//                         "-1.8",
 //                         "-inpath", inPath,
 //                         "-aspectpath", aspectPath,
-//                         "-d", dPath,
+//                         "-d", dPath ,
 //                         "-classpath", classpath,
 //                         "-bootclasspath", android.bootClasspath.join(File.pathSeparator)]
 //        MessageHandler handler = new MessageHandler(true)
 //        new Main().run(args, handler)
+//        File file = new File("D:\\mysoftware\\Android\\projects\\AbcPermission\\app\\build\\intermediates\\javac\\debug\\classes\\personal\\nfl\\abcpermission\\kotlin\\KotlinTest.class")
+////        if (file.exists())file.delete()
 //
-//
-//        String[] args2 = ["-showWeaveInfo",
-//                          "-1.7",
-//                          "-inpath", kotlinPath,
-//                          "-aspectpath", aspectPath,
-//                          "-d", kotlinPath,
-//                          "-classpath", classpath,
-//                          "-bootclasspath", android.bootClasspath.join(File.pathSeparator)]
-//        new Main().run(args2, handler)
+////        String[] args2 = ["-showWeaveInfo",
+////                          "-1.8",
+////                          "-inpath", kotlinPath,
+////                          "-aspectpath", aspectPath,
+////                          "-d", kotlinDPath,
+////                          "-classpath", classpath,
+////                          "-bootclasspath", android.bootClasspath.join(File.pathSeparator)]
+////        new Main().run(args2, handler)
 //
 //        def log = project.logger
 //        for (IMessage message : handler.getMessages(null, true)) {
@@ -178,3 +127,61 @@ aspectjx {
 //        }
 //    }
 //}
+
+//android.applicationVariants.all { variant ->
+//    Task javaCompile = variant.getJavaCompileProvider().get()
+//    println("This is javaComplile:" + javaCompile)
+//    project.logger.log(LogLevel.ERROR, "=====================")
+//    javaCompile.doLast {
+//        String aspectPath = javaCompile.classpath.asPath
+//        String dPath = javaCompile.destinationDir.toString() ;
+//        String classpath = javaCompile.classpath.asPath
+//        String kotlinPath = "E:\\Android\\Projects\\AbcPermission\\app\\build\\tmp\\kotlin-classes\\debug;"
+//        // kotlinPath = ""
+//        String inPath = kotlinPath + javaCompile.destinationDir.toString()
+//
+//        String[] args = ["-showWeaveInfo",
+//                         "-1.8",
+//                         "-inpath", inPath ,
+//                         "-aspectpath", aspectPath,
+//                         "-d", dPath ,
+//                         "-classpath", classpath,
+//                         "-bootclasspath", android.bootClasspath.join(File.pathSeparator)]
+//        MessageHandler handler = new MessageHandler(true)
+//        new Main().run(args, handler)
+//        def log = project.logger
+//        for (IMessage message : handler.getMessages(null, true)) {
+//            switch (message.getKind()) {
+//                case IMessage.ABORT:
+//                case IMessage.ERROR:
+//                case IMessage.FAIL:
+//                    log.error message.message, message.thrown
+//                    break;
+//                case IMessage.WARNING:
+//                case IMessage.INFO:
+//                    log.info message.message, message.thrown
+//                    break;
+//                case IMessage.DEBUG:
+//                    log.debug message.message, message.thrown
+//                    break;
+//            }
+//        }
+//    }
+//}
+
+aspectjx {
+    //关闭AspectJX功能
+    enabled true
+    // ajcArgs 这里可以配置 aop 操作所需要的参数
+    // ajcArgs ''
+    //忽略所有的class文件及jar文件，相当于AspectJX不生效
+    // exclude '*'
+    exclude 'com.google'
+    exclude 'androidx.*'
+    exclude 'shark.*'
+    exclude 'org.aspectj.*'
+}
+
+
+
+
