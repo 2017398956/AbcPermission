@@ -36,7 +36,9 @@ class AJXTask implements ITask {
     ArrayList<File> classPath = new ArrayList<>()
     List<String> ajcArgs = new ArrayList<>()
     String bootClassPath
+    // java 代码版本（一般 1.7 即可）
     String sourceCompatibility
+    // java 编译目标版本（一般 1.7 即可）
     String targetCompatibility
     String outputDir
     String outputJar
@@ -56,11 +58,13 @@ class AJXTask implements ITask {
                 "-classpath", classPath.join(File.pathSeparator),
                 "-bootclasspath", bootClassPath
         ]
-
+        log.error("my args before is " + args)
         if (!getInPath().isEmpty()) {
+            log.error("-------------------------------------" + getInPath())
             args << '-inpath'
             args << getInPath().join(File.pathSeparator)
         }
+        log.error("my args after is " + args)
         if (!getAspectPath().isEmpty()) {
             args << '-aspectpath'
             args << getAspectPath().join(File.pathSeparator)
@@ -71,8 +75,8 @@ class AJXTask implements ITask {
             args << outputDir
         }else {
             // 使用 inpath 的目录
-            args << '-d'
-            args << getInPath().join(File.pathSeparator)
+//            args << '-d'
+//            args << getInPath().join(File.pathSeparator)
         }
 
         if (outputJar != null && !outputJar.isEmpty()) {
@@ -100,8 +104,8 @@ class AJXTask implements ITask {
 
         MessageHandler handler = new MessageHandler(true)
         Main m = new Main()
-        log.error("my args is " + args)
-//        m.run(args as String[], handler)
+        // log.error("my args is " + args)
+        m.run(args as String[], handler)
         for (IMessage message : handler.getMessages(null, true)) {
             switch (message.getKind()) {
                 case IMessage.ABORT:

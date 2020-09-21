@@ -55,7 +55,7 @@ class CacheAspectFilesProcedure extends AbsProcedure {
                     Object call() throws Exception {
                         dirInput.file.eachFileRecurse { File item ->
                             if (AJXUtils.isAspectClass(item)) {
-                                project.logger.debug("~~~~~~~~~~~~collect aspect file:${item.absolutePath}")
+                                project.logger.debug("~~~~~~~~~~~~from directory collect aspect file:${item.absolutePath}")
                                 String path = item.absolutePath
                                 String subPath = path.substring(dirInput.file.absolutePath.length())
                                 File cacheFile = new File(variantCache.aspectPath + subPath)
@@ -84,7 +84,7 @@ class CacheAspectFilesProcedure extends AbsProcedure {
                                 if (AJXUtils.isAspectClass(bytes)) {
                                     // 如果 jar 包中的 class 文件需要 aop 处理，那么将其复制到
                                     // ../build/intermediates/ajx/(release)debug/aspecs 文件夹中
-                                    project.logger.debug("~~~~~~~~~~~collect aspect file:${entryName}")
+                                    project.logger.debug("~~~~~~~~~~~from jar collect aspect file:${entryName}")
                                     variantCache.add(bytes, cacheFile)
                                 }
                             }
@@ -101,6 +101,7 @@ class CacheAspectFilesProcedure extends AbsProcedure {
         if (AJXUtils.countOfFiles(variantCache.aspectDir) == 0) {
             // TODO 如果缓存文件夹中没有需要 aop 的文件，好像不需要这一步
             AJXUtils.doWorkWithNoAspectj(transformInvocation)
+            // 如果没有需要 aop 操作的文件，那么直接终止 ajx 任务
             return false
         }
 

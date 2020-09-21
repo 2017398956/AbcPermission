@@ -35,8 +35,11 @@ class DoAspectWorkProcedure extends AbsProcedure {
 
     DoAspectWorkProcedure(Project project, VariantCache variantCache, TransformInvocation transformInvocation) {
         super(project, variantCache, transformInvocation)
-        ajxTaskManager = new AJXTaskManager(encoding: ajxCache.encoding, ajcArgs: ajxCache.ajxExtensionConfig.ajcArgs, bootClassPath: ajxCache.bootClassPath,
-                sourceCompatibility: ajxCache.sourceCompatibility, targetCompatibility: ajxCache.targetCompatibility)
+        ajxTaskManager = new AJXTaskManager(encoding: ajxCache.encoding,
+                ajcArgs: ajxCache.ajxExtensionConfig.ajcArgs,
+                bootClassPath: ajxCache.bootClassPath,
+                sourceCompatibility: ajxCache.sourceCompatibility,
+                targetCompatibility: ajxCache.targetCompatibility)
     }
 
     @Override
