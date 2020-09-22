@@ -12,7 +12,6 @@ import java.lang.reflect.Field;
 import personal.nfl.abcpermission.bean.NewBean;
 import personal.nfl.abcpermission.kotlin.KotlinTest;
 import personal.nfl.permission.annotation.GetPermissions4AndroidX;
-import personal.nfl.permission.annotation.TestAnnotation;
 import personal.nfl.permission.support.constant.ApplicationConstant;
 
 /**
@@ -51,7 +50,7 @@ public class MainActivity extends Activity {
         }
     }
 
-//    @GetPermissions4AndroidX({Manifest.permission.READ_CONTACTS,Manifest.permission.READ_PHONE_STATE})
+    @GetPermissions4AndroidX({Manifest.permission.READ_CONTACTS,Manifest.permission.READ_PHONE_STATE})
     private String readContacts() {
         Toast.makeText(ApplicationConstant.application, "readContacts", Toast.LENGTH_SHORT).show();
         // startActivity(new Intent(this, MainActivity.class));

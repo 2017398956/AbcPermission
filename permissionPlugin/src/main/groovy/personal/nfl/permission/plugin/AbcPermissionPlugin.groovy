@@ -21,33 +21,44 @@ class AbcPermissionPlugin implements Plugin<Project> {
         project.repositories.maven {
             url 'https://jitpack.io'
         }
-
-        project.dependencies{
-            api("com.github.2017398956:AbcPermission:1.6.4") {
-                exclude module: 'permissionAnnotation'
-                exclude module: 'permissionCompiler'
-            }
-            provided("com.github.2017398956:AbcPermission:1.6.4") {
-                exclude module: 'permissionSupport'
-                exclude module: 'permissionCompiler'
-            }
-            annotationProcessor("com.github.2017398956:AbcPermission:1.6.4") {
-                exclude module: 'permissionSupport'
-            }
+        // 默认使用 java 的注解方式
+        String annotationMethod = "annotationProcessor"
+        if (project.plugins.findPlugin("kotlin-kapt") != null) {
+            // 支持 kotlin
+            // 如果在 kotlin 代码中使用了注解的方式生成代码，那么需要在
+            // apply plugin: 'kotlin-kapt' 之后添加 apply plugin: 'abcpermission.plugin'
+            // 顺序颠倒后将无法正常运行
+            annotationMethod = "kapt"
+        } else {
+            // 使用默认的 annotationProcessor
         }
 
+//        project.dependencies{
+//            api("com.github.2017398956:AbcPermission:1.6.8") {
+//                exclude module: 'permissionAnnotation'
+//                exclude module: 'permissionCompiler'
+//            }
+//            provided("com.github.2017398956:AbcPermission:1.6.8") {
+//                exclude module: 'permissionSupport'
+//                exclude module: 'permissionCompiler'
+//            }
+//            kapt("com.github.2017398956:AbcPermission:1.6.8") {
+//                exclude module: 'permissionSupport'
+//            }
+//        }
+
         project.dependencies.add("implementation",
-                "com.github.2017398956:AbcPermission:1.6", {
+                "com.github.2017398956:AbcPermission:1.6.9", {
             "exclude module: 'permissionAnnotation'"
             "exclude module: 'permissionCompiler'"
         })
-        project.dependencies.add("provided",
-                "com.github.2017398956:AbcPermission:1.6", {
+        project.dependencies.add("compileOnly",
+                "com.github.2017398956:AbcPermission:1.6.9", {
             "exclude module: 'permissionSupport'"
             "exclude module: 'permissionCompiler'"
         })
-        project.dependencies.add("annotationProcessor",
-                "com.github.2017398956:AbcPermission:1.6", {
+        project.dependencies.add(annotationMethod,
+                "com.github.2017398956:AbcPermission:1.6.9", {
             "exclude module: 'permissionSupport'"
             "exclude module: 'permissionCompiler'"
         })
@@ -55,10 +66,10 @@ class AbcPermissionPlugin implements Plugin<Project> {
         if (project.hasProperty('android') && project.android != null) {
             if (project.android.hasProperty('compileOptions') && project.android.compileOptions != null) {
                 if (project.android.compileOptions.hasProperty('targetCompatibility') && project.android.compileOptions.targetCompatibility != null) {
-                    targetJDK = project.android.compileOptions.properties.get('targetCompatibility')
+                    // targetJDK = project.android.compileOptions.properties.get('targetCompatibility')
                 }
                 if (project.android.compileOptions.hasProperty('sourceCompatibility') && project.android.compileOptions.sourceCompatibility != null) {
-                    sourceJDK = project.android.compileOptions.properties.get('sourceCompatibility')
+                    // sourceJDK = project.android.compileOptions.properties.get('sourceCompatibility')
                 }
             }
 
@@ -103,8 +114,9 @@ class AbcPermissionPlugin implements Plugin<Project> {
                                   "-d", dPath,
                                   "-classpath", classpath,
                                   "-bootclasspath", project.android.bootClasspath.join(File.pathSeparator)]
+            println(javacArgs)
             new Main().run(javacArgs, handler)
-            File[] kotlinClassFiles = FileUtil.listFiles(kotlinInPath , true)
+            File[] kotlinClassFiles = FileUtil.listFiles(kotlinInPath, true)
             File javacKotlinFile
             for (File temp : kotlinClassFiles) {
                 if (temp.isFile() && temp.getName().endsWith(".class")) {

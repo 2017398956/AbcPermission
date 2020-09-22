@@ -24,7 +24,7 @@
 	    dependencies {
 	        ...
 	        // 如果你使用的时 androidx 请接入 1.3.5 以后的版本
-	        classpath 'com.github.2017398956:abcpermission-plugin:1.3.5'
+	        classpath 'com.github.2017398956:abcpermission-plugin:1.5.0'
 	    }
 	}
 

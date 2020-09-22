@@ -1,10 +1,11 @@
 apply plugin: 'com.android.application'
-// 这个是测试 permissionPlugin 或 com.github.2017398956:abcpermission-plugin:{version} 时引用的
-// apply plugin: 'abcpermission.plugin'
-apply plugin: 'AspectPlugin'
+
+//apply plugin: 'AspectPlugin'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+// 这个是测试 permissionPlugin 或 com.github.2017398956:abcpermission-plugin:{version} 时引用的
+apply plugin: 'abcpermission.plugin'
 //apply plugin: 'android-aspectjx'
 // 这里的代码只在不用 apply plugin: 'abcpermission.plugin' 和 apply plugin: 'AspectPlugin' 时使用
 // 需要在根 build.gradle 中开启下面两个依赖后才能导入
@@ -42,8 +43,8 @@ android {
         }
     }
     compileOptions {
-        targetCompatibility JavaVersion.VERSION_1_8
-        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility "1.8"
+        sourceCompatibility "1.8"
     }
 }
 
@@ -52,11 +53,11 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.13'
-    implementation project(':permissionAnnotation')
+//    implementation project(':permissionAnnotation')
     // annotationProcessor project(':permissionCompiler')
-    kapt project(':permissionCompiler')
-    implementation project(':permissionSupport')
-    api 'org.aspectj:aspectjrt:1.9.6'
+//    kapt project(':permissionCompiler')
+//    implementation project(':permissionSupport')
+    implementation 'org.aspectj:aspectjrt:1.9.6'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
     implementation 'androidx.core:core-ktx:1.3.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

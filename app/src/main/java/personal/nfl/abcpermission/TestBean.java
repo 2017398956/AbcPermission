@@ -2,7 +2,6 @@ package personal.nfl.abcpermission;
 
 import personal.nfl.abcpermission.common.BeanInterface;
 import personal.nfl.abcpermission.common.BeanKeepInterface;
-import personal.nfl.permission.annotation.TestAnnotation;
 
 /**
  * Created by nfl on 2018/2/10.
