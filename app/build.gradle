@@ -21,9 +21,18 @@ apply plugin: 'kotlin-kapt'
 //        arg("AROUTER_MODULE_NAME", project.getName())
 //    }
 //}
+//如果有用到 kapt 添加如下配置
+kapt {
+    //
+    useBuildCache = true
+    javacOptions {
+        option("-Xmaxerrs", 500)
+    }
+}
 
 android {
     compileSdkVersion 29
+    // debug 版本不要动态修改版本号，会拖慢编译效率
     defaultConfig {
         applicationId "personal.nfl.abcpermission"
         minSdkVersion 14
@@ -41,6 +50,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    // 可优化 transformClassDexBuilderForDebug 的时间
+    dexOptions {
+        preDexLibraries true
+        maxProcessCount 8
     }
     compileOptions {
         targetCompatibility JavaVersion.VERSION_1_8
