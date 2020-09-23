@@ -1,11 +1,9 @@
 apply plugin: 'java-library'
-apply plugin: 'kotlin'
 apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.2017398956'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 sourceCompatibility = "1.7"

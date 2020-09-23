@@ -3,6 +3,7 @@
 [![Release Version](https://img.shields.io/badge/release-1.6.8-green.svg)](https://github.com/2017398956/AbcPermission/releases)
 
 **更新日志：**
+- **1.7.0** 支持 Kotlin 和 java 混编
 - **1.6.8** 修复在 support 包下的错误
 - **1.6.4** 支持 AndroidX ，用 @GetPermissions4AndroidX 代替 @GetPermissionsAuto；使用 support 的请使用 com.github.2017398956:abcpermission-plugin:1.3.5 。
 
