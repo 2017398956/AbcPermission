@@ -7,6 +7,8 @@ import org.apache.commons.io.FileUtils
 import org.aspectj.bridge.IMessage
 import org.aspectj.bridge.MessageHandler
 import org.aspectj.tools.ajc.Main
+// 在更改 gradle 缓存的 as 上无法直接引用，但运行的时候不会报错，待解决
+// import org.gradle.api.Task
 
 
 //kapt {
