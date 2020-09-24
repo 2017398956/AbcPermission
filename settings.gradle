@@ -1,9 +1,22 @@
+apply from: "configs.gradle"
+
 include ':app'
-include ':permissionSupport', ':permissionAnnotation', ':permissionCompiler'
-// 虽然引入了但不要使用，这个时用来为其它项目提供本地 maven 库的
-//include 'permissionPlugin'
+switch (ext.environmentType) {
+    case ext.EnvironmentType.TYPE_ASPECT:
+    case ext.EnvironmentType.TYPE_ASPECT_PLUGIN:
+        include ':permissionSupport', ':permissionAnnotation', ':permissionCompiler'
+        break
+    case ext.EnvironmentType.TYPE_LOCAL_MAVEN:
+        include 'permissionPlugin'
+        break
+    case ext.EnvironmentType.TYPE_ABC_PERMISSION_PLUGIN: break
+    case ext.EnvironmentType.TYPE_HUJIANG:
+        break
+    case ext.EnvironmentType.TYPE_HUJIANG_LOCAL:
+        include ':gradle_plugin_android_aspectjx'
+        include ':gradle_plugin_android_aspectjx:aspectjx'
+        break
+    case ext.EnvironmentType.TYPE_HUJIANG_LOCAL_JAR: break
+}
 
-//include ':gradle_plugin_android_aspectjx'
-//include ':gradle_plugin_android_aspectjx:aspectjx'
-
-rootProject.name='AbcPermission'
+rootProject.name = 'AbcPermission'

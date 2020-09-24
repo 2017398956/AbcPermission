@@ -1,0 +1,17 @@
+ext {
+    EnvironmentType = [
+            TYPE_ASPECT               : 1,
+            TYPE_ASPECT_PLUGIN        : 2,
+            // 使用本地的 abcpermission 仓库，此时应使用 permissionPlugin/build.gradle 中
+            // 的 uploadArchives 生成本地仓库
+            TYPE_LOCAL_MAVEN          : 3,
+            TYPE_ABC_PERMISSION_PLUGIN: 4,
+            // 使用 maven 仓库
+            TYPE_HUJIANG              : 5,
+            // 使用本地的 沪江 maven 仓库，此时应使用 gradle_plugin_android_aspectjx/aspectjx/build.gradle 中
+            // 的 uploadArchives 生成本地仓库
+            TYPE_HUJIANG_LOCAL        : 6,
+            TYPE_HUJIANG_LOCAL_JAR    : 7
+    ]
+    environmentType = EnvironmentType.TYPE_ASPECT
+}

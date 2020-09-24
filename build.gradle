@@ -1,16 +1,11 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-//import com.hujiang.gradle.plugin.android.aspectjx.*;
-buildscript {
-    ext.kotlin_version = '1.4.0'
+// import com.hujiang.gradle.plugin.android.aspectjx.*;
 
+buildscript {
+    // buildscript 中的代码会优先外面的代码执行
+    apply from: "configs.gradle"
+    ext.kotlin_version = '1.4.0'
     repositories {
-//        maven {
-//            url uri('gradle_plugin_android_aspectjx\\repo')
-//        }
-        // 使用本地 maven 仓库 repo 时再添加
-        maven {
-            url uri('repo')
-        }
         maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://maven.aliyun.com/repository/central' }
         maven { url 'https://maven.aliyun.com/repository/google' }
@@ -19,30 +14,67 @@ buildscript {
         jcenter()
         mavenCentral()
         maven { url 'https://jitpack.io' }
-
     }
+
+    switch (environmentType) {
+        case EnvironmentType.TYPE_ASPECT:
+            dependencies {
+                classpath 'org.aspectj:aspectjtools:1.9.6'
+                classpath 'org.aspectj:aspectjweaver:1.9.6'
+            }
+            break
+        case EnvironmentType.TYPE_ASPECT_PLUGIN:
+            dependencies {
+                classpath 'com.github.2017398956:AspectPlugin:2.0'
+            }
+            break
+        case EnvironmentType.TYPE_LOCAL_MAVEN:
+            repositories {
+                maven {
+                    url uri('repo')
+                }
+            }
+            dependencies {
+                classpath 'personal.nfl.permission:permissionPlugin:0.2.0'
+            }
+            break
+        case EnvironmentType.TYPE_ABC_PERMISSION_PLUGIN:
+            dependencies {
+                classpath 'com.github.2017398956:abcpermission-plugin:1.7.1'
+            }
+            break
+        case EnvironmentType.TYPE_HUJIANG:
+            dependencies {
+                classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.10'
+            }
+            break
+        case EnvironmentType.TYPE_HUJIANG_LOCAL:
+            repositories {
+                maven {
+                    url uri('gradle_plugin_android_aspectjx\\repo')
+                }
+            }
+            dependencies {
+                classpath 'personal.nfl.aspectj:gradle-android-plugin-aspectjx:0.0.3'
+            }
+            break
+        case EnvironmentType.TYPE_HUJIANG_LOCAL_JAR:
+            // 需要把 沪江 ajx 的 jar 包放在根目录的 plugins 文件夹下
+            dependencies {
+                classpath fileTree(dir:'plugins', include:['*.jar'])
+            }
+            break
+    }
+
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.1'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-        // 这里的代码只在不用 apply plugin: 'abcpermission.plugin' 和 apply plugin: 'AspectPlugin' 时使用
-//         classpath 'org.aspectj:aspectjtools:1.9.6'
-//         classpath 'org.aspectj:aspectjweaver:1.9.6'
-        // 测试本地仓库 repo 其功能和 abcpermission.plugin  一样，不要再该项目中测试了，
-        // 因为其包含  'permissionAnnotation' 'permissionCompiler' 'permissionSupport'
-        // 会造成重复引用，如果要测试必须先去掉这三个 module 的引用
-//         classpath 'personal.nfl.permission:permissionPlugin:0.2.0'
-//        classpath 'com.github.2017398956:abcpermission-plugin:1.5.6'
-        // 本项目中只使用 AspectPlugin 最为方便
-         classpath 'com.github.2017398956:AspectPlugin:2.0'
-        // classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.10'
-//        classpath 'personal.nfl.aspectj:gradle-android-plugin-aspectjx:0.0.3'
-        // classpath fileTree(dir:'plugins', include:['*.jar'])
+
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
-
     }
 }
 
