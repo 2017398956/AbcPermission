@@ -79,6 +79,7 @@ switch (rootProject.ext.environmentType) {
             // 仅在非插件模式下使用 aspectj
             implementation 'org.aspectj:aspectjrt:1.9.6'
         }
+        File aopTemp = new File(project.buildFile.parentFile.absolutePath + "\\src\\main\\java\\AopTemp.java")
         Task kotlinCompile
         if (project.plugins.findPlugin("kotlin-android") != null) {
             kotlin.target.compilations.all { variant ->
@@ -90,89 +91,19 @@ switch (rootProject.ext.environmentType) {
                 }
                 if ("debug" == variant.name) {
                     kotlinCompile.doLast {
-                        // TODO 执行 aop 操作
+                        // TODO 执行 aop 操作（待解决：当 java 代码没有变化时，javaCompile 不执行）
                         println("kolinCompile.path : " + kotlinCompile.path)
                         println("This is print after kotlin debug compile and should exc aop .")
-//                        MessageHandler handler = new MessageHandler(true)
-//                        String aspectPath = kotlinCompile.classpath.asPath
-//                        String inPath = kotlinCompile.destinationDir.toString()
-//                        String dPath = kotlinCompile.destinationDir.toString();
-//                        String classpath = kotlinCompile.classpath.asPath
-//                        // 配置 kotlin 相关参数
-////                        String kotlinInPath = ""
-////                        if (dPath.contains("debug\\classes")) {
-////                            kotlinInPath = javaCompile.temporaryDir.getParentFile().path + File.separator + "kotlin-classes" + File.separator + "debug"
-////                        } else {
-////                            kotlinInPath = javaCompile.temporaryDir.getParentFile().path + File.separator + "kotlin-classes" + File.separator + "release"
-////                        }
-//                        String sourceJDK = "1.8"
-//                        String targetJDK = "1.8"
-//                        if (project.hasProperty('android')) {
-//                            if (project.android.hasProperty('compileOptions')) {
-//                                if (project.android.compileOptions.hasProperty('targetCompatibility')) {
-//                                    targetJDK = project.android.compileOptions.properties.get('targetCompatibility')
-//                                }
-//                                if (project.android.compileOptions.hasProperty('sourceCompatibility')) {
-//                                    sourceJDK = project.android.compileOptions.properties.get('sourceCompatibility')
-//                                }
-//                            }
-//
-//                        }
-//                        // java 的 class 文件实现 aop
-//                        String[] kcArgs = ["-showWeaveInfo",
-//                                              "-source", sourceJDK,
-//                                              "-target", targetJDK,
-//                                              "-inpath", inPath,
-//                                              "-aspectpath", aspectPath,
-//                                              "-d", dPath,
-//                                              "-classpath", classpath,
-//                                              "-bootclasspath", android.bootClasspath.join(File.pathSeparator)]
-//                        println("kcArgs is : " + kcArgs)
-//                        new Main().run(kcArgs, handler)
-//
-////                        File[] kotlinClassFiles = FileUtils.listFiles(new File(kotlinInPath), null, true)
-////                        File javacKotlinFile
-////                        for (File temp : kotlinClassFiles) {
-////                            if (temp.isFile() && temp.getName().endsWith(".class")) {
-////                                javacKotlinFile = new File(inPath + File.separator + temp.absolutePath.replace(kotlinInPath, ""))
-////                                if (null != javacKotlinFile && javacKotlinFile.exists()) {
-////                                    FileUtils.copyFile(javacKotlinFile, temp)
-////                                    FileUtils.deleteQuietly(javacKotlinFile)
-////                                }
-////                            }
-////                        }
-//
-//                        def log = project.logger
-//                        for (IMessage message : handler.getMessages(null, true)) {
-//                            switch (message.getKind()) {
-//                                case IMessage.ABORT:
-//                                case IMessage.ERROR:
-//                                case IMessage.FAIL:
-//                                    log.error message.message, message.thrown
-//                                    break;
-//                                case IMessage.WARNING:
-//                                case IMessage.INFO:
-//                                    log.info message.message, message.thrown
-//                                    break;
-//                                case IMessage.DEBUG:
-//                                    log.debug message.message, message.thrown
-//                                    break;
-//                            }
-//                        }
+                        FileWriter fileWriter = new FileWriter(aopTemp)
+                        fileWriter.write("public class AopTemp {}")
+                        fileWriter.flush()
+                        fileWriter.close()
                     }
                 }
             }
         }
         android.applicationVariants.all { variant ->
-
             Task javaCompile = variant.getJavaCompileProvider().get()
-
-            if (kotlinCompile != null){
-                javaCompile.mustRunAfter(kotlinCompile.path) {
-                    println("this is javaCompile.doFirst")
-                }
-            }
-
             javaCompile.doLast {
                 println("this is javaCompile.doLast")
                 MessageHandler handler = new MessageHandler(true)
@@ -180,6 +111,17 @@ switch (rootProject.ext.environmentType) {
                 String inPath = javaCompile.destinationDir.toString()
                 String dPath = javaCompile.destinationDir.toString();
                 String classpath = javaCompile.classpath.asPath
+
+                if (null != aopTemp && aopTemp.exists()) {
+                    FileUtils.deleteQuietly(aopTemp)
+                }
+
+                File aopTempClass = new File(dPath + File.separator + "AopTemp.class")
+                if (aopTempClass.exists()) {
+                    FileUtils.deleteQuietly(aopTemp)
+                }
+
+
                 // 配置 kotlin 相关参数
                 String kotlinInPath = ""
                 if (dPath.contains("debug\\classes")) {
@@ -207,9 +149,9 @@ switch (rootProject.ext.environmentType) {
                                       "-inpath", kotlinInPath + ";" + inPath,
                                       "-aspectpath", aspectPath,
                                       "-d", dPath,
+//                        "-incremental",
                                       "-classpath", classpath,
                                       "-bootclasspath", android.bootClasspath.join(File.pathSeparator)]
-                println("javacArgs is : " + javacArgs)
                 new Main().run(javacArgs, handler)
 
                 File[] kotlinClassFiles = FileUtils.listFiles(new File(kotlinInPath), null, true)
@@ -218,6 +160,7 @@ switch (rootProject.ext.environmentType) {
                     if (temp.isFile() && temp.getName().endsWith(".class")) {
                         javacKotlinFile = new File(inPath + File.separator + temp.absolutePath.replace(kotlinInPath, ""))
                         if (null != javacKotlinFile && javacKotlinFile.exists()) {
+                            FileUtils.deleteQuietly(temp)
                             FileUtils.copyFile(javacKotlinFile, temp)
                             FileUtils.deleteQuietly(javacKotlinFile)
                         }
