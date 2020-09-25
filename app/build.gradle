@@ -7,6 +7,7 @@ import org.apache.commons.io.FileUtils
 import org.aspectj.bridge.IMessage
 import org.aspectj.bridge.MessageHandler
 import org.aspectj.tools.ajc.Main
+
 // 在更改 gradle 缓存的 as 上无法直接引用，但运行的时候不会报错，待解决
 // import org.gradle.api.Task
 
@@ -19,10 +20,10 @@ import org.aspectj.tools.ajc.Main
 //如果有用到 kapt 添加如下配置
 kapt {
     //
-    useBuildCache = true
-    javacOptions {
-        option("-Xmaxerrs", 500)
-    }
+    useBuildCache = false
+//    javacOptions {
+//        option("-Xmaxerrs", 500)
+//    }
 }
 
 android {
@@ -82,6 +83,9 @@ switch (rootProject.ext.environmentType) {
             implementation 'org.aspectj:aspectjrt:1.9.6'
         }
         File aopTemp = new File(project.buildFile.parentFile.absolutePath + "\\src\\main\\java\\AopTemp.java")
+        if (aopTemp.exists()){
+            FileUtils.deleteQuietly(aopTemp)
+        }
         Task kotlinCompile
         if (project.plugins.findPlugin("kotlin-android") != null) {
             kotlin.target.compilations.all { variant ->
@@ -97,7 +101,7 @@ switch (rootProject.ext.environmentType) {
                         println("kolinCompile.path : " + kotlinCompile.path)
                         println("This is print after kotlin debug compile and should exc aop .")
                         FileWriter fileWriter = new FileWriter(aopTemp)
-                        fileWriter.write("public class AopTemp {}")
+                        fileWriter.write("public class AopTemp {int a = " + new Random().nextInt() + ";}")
                         fileWriter.flush()
                         fileWriter.close()
                     }
@@ -115,12 +119,13 @@ switch (rootProject.ext.environmentType) {
                 String classpath = javaCompile.classpath.asPath
 
                 if (null != aopTemp && aopTemp.exists()) {
+                    println("delete file:" + aopTemp.absolutePath)
                     FileUtils.deleteQuietly(aopTemp)
                 }
-
                 File aopTempClass = new File(dPath + File.separator + "AopTemp.class")
                 if (aopTempClass.exists()) {
-                    FileUtils.deleteQuietly(aopTemp)
+                    println("delete file:" + aopTempClass.absolutePath)
+                    FileUtils.deleteQuietly(aopTempClass)
                 }
 
 
@@ -205,6 +210,7 @@ switch (rootProject.ext.environmentType) {
         apply plugin: 'abcpermission.plugin'
         break
     case rootProject.ext.EnvironmentType.TYPE_ABC_PERMISSION_PLUGIN:
+        apply plugin: 'AspectPlugin'
         apply plugin: 'abcpermission.plugin'
         break
 // 沪江共用下面的 aspectjx 环境

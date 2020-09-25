@@ -25,7 +25,7 @@ buildscript {
             break
         case EnvironmentType.TYPE_ASPECT_PLUGIN:
             dependencies {
-                classpath 'com.github.2017398956:AspectPlugin:2.0'
+                classpath "com.github.2017398956:AspectPlugin:${aspectPluginVersion}"
             }
             break
         case EnvironmentType.TYPE_LOCAL_MAVEN:
@@ -40,7 +40,8 @@ buildscript {
             break
         case EnvironmentType.TYPE_ABC_PERMISSION_PLUGIN:
             dependencies {
-                classpath 'com.github.2017398956:abcpermission-plugin:1.7.1'
+                classpath "com.github.2017398956:AspectPlugin:${aspectPluginVersion}"
+                classpath "com.github.2017398956:abcpermission-plugin:${abcPermissionPluginVersion}"
             }
             break
         case EnvironmentType.TYPE_HUJIANG:

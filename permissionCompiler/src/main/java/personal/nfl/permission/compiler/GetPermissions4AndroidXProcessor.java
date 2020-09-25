@@ -133,6 +133,7 @@ public class GetPermissions4AndroidXProcessor extends AbstractProcessor {
     private void createFile(String packageName, String enclosingName, String[] permissions, String methodName, String returnType, boolean isKotlinFile) {
         Calendar calendar = Calendar.getInstance();
         String classPostfix = "" + (calendar.get(Calendar.MINUTE) + 100) + (calendar.get(Calendar.SECOND) + 100) + (calendar.get(Calendar.MILLISECOND) + 1000);
+        isKotlinFile = false ;
         if (isKotlinFile) {
             File kotlinFile = new File(kaptKotlinPath + File.separator
                     + packageName.replace(".", "\\")
