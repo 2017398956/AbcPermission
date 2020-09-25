@@ -11,7 +11,7 @@
 
 - **1.6.3** 解决在 gradle4.4中 appcompat-v7 版本冲突问题：考虑到 appcompat-v7 现在是必安装的包，因此在项目中不再传递该依赖，以免造成版本冲突，使用时请自行添加 appcompat-v7 依赖。
 
-## 接入方式优化（快速接入看这里：https://github.com/2017398956/abcpermission-plugin）
+## 接入方式优化（快速接入看这里：https://github.com/2017398956/abcpermission-plugin ）
 
 由于部分读者反映 [AbcPermission](https://github.com/2017398956/AbcPermission "AbcPermission") 的接入方式太麻烦，利用周末时间我写了个 gradle 插件用于简化接入流程。这里提供了 2 套接入方案：一为最简便的；另一个支持版本自定义（如果你一直用最新版，这个可以忽略）。[AbcPermission](https://github.com/2017398956/AbcPermission "AbcPermission") 的概念 [这里](http://blog.csdn.net/niuzhucedenglu/article/details/78707302 "AbcPermission") 有详细的讲解。[这里是一次重要的升级](http://blog.csdn.net/niuzhucedenglu/article/details/78842723)，也可以直接看 [AbcPermission](https://github.com/2017398956/AbcPermission "AbcPermission") 的 readme 文件。
 
