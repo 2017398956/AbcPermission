@@ -82,7 +82,7 @@ switch (rootProject.ext.environmentType) {
             // 仅在非插件模式下使用 aspectj
             implementation 'org.aspectj:aspectjrt:1.9.6'
         }
-        File aopTemp = new File(project.buildFile.parentFile.absolutePath + "\\src\\main\\java\\AopTemp.java")
+        File aopTemp = new File(project.buildFile.parentFile.absolutePath + "${File.separator}src${File.separator}main${File.separator}java${File.separator}AopTemp.java")
         if (aopTemp.exists()){
             FileUtils.deleteQuietly(aopTemp)
         }
@@ -97,7 +97,7 @@ switch (rootProject.ext.environmentType) {
                 }
                 if ("debug" == variant.name) {
                     kotlinCompile.doLast {
-                        // TODO 执行 aop 操作（待解决：当 java 代码没有变化时，javaCompile 不执行）
+                        // 解决：当 java 代码没有变化时，javaCompile 不执行
                         println("kolinCompile.path : " + kotlinCompile.path)
                         println("This is print after kotlin debug compile and should exc aop .")
                         FileWriter fileWriter = new FileWriter(aopTemp)
@@ -117,7 +117,8 @@ switch (rootProject.ext.environmentType) {
                 String inPath = javaCompile.destinationDir.toString()
                 String dPath = javaCompile.destinationDir.toString();
                 String classpath = javaCompile.classpath.asPath
-
+                println("inPath = ${inPath}")
+                println("dPath = ${dPath}")
                 if (null != aopTemp && aopTemp.exists()) {
                     println("delete file:" + aopTemp.absolutePath)
                     FileUtils.deleteQuietly(aopTemp)
@@ -131,10 +132,10 @@ switch (rootProject.ext.environmentType) {
 
                 // 配置 kotlin 相关参数
                 String kotlinInPath = ""
-                if (dPath.contains("debug\\classes")) {
-                    kotlinInPath = javaCompile.temporaryDir.getParentFile().path + File.separator + "kotlin-classes" + File.separator + "debug"
+                if (dPath.contains("debug${File.separator}classes")) {
+                    kotlinInPath = javaCompile.temporaryDir.getParentFile().path + "${File.separator}kotlin-classes${File.separator}debug"
                 } else {
-                    kotlinInPath = javaCompile.temporaryDir.getParentFile().path + File.separator + "kotlin-classes" + File.separator + "release"
+                    kotlinInPath = javaCompile.temporaryDir.getParentFile().path + "${File.separator}kotlin-classes${File.separator}release"
                 }
                 String sourceJDK = "1.8"
                 String targetJDK = "1.8"
@@ -160,7 +161,7 @@ switch (rootProject.ext.environmentType) {
                                       "-classpath", classpath,
                                       "-bootclasspath", android.bootClasspath.join(File.pathSeparator)]
                 new Main().run(javacArgs, handler)
-
+                println("kotlinInPath = ${kotlinInPath}")
                 File[] kotlinClassFiles = FileUtils.listFiles(new File(kotlinInPath), null, true)
                 File javacKotlinFile
                 for (File temp : kotlinClassFiles) {
