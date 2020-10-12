@@ -117,6 +117,7 @@ switch (rootProject.ext.environmentType) {
                 String inPath = javaCompile.destinationDir.toString()
                 String dPath = javaCompile.destinationDir.toString();
                 String classpath = javaCompile.classpath.asPath
+                println("aspectPath = ${aspectPath}")
                 println("inPath = ${inPath}")
                 println("dPath = ${dPath}")
                 if (null != aopTemp && aopTemp.exists()) {
@@ -150,18 +151,23 @@ switch (rootProject.ext.environmentType) {
                     }
 
                 }
+                String pathSplit = ";"
+                if (kotlinInPath.startsWith("/")){
+                    // 说明是 linux 或者 mac 环境
+                    pathSplit = ":"
+                }
                 // java 的 class 文件实现 aop
                 String[] javacArgs = ["-showWeaveInfo",
                                       "-source", sourceJDK,
                                       "-target", targetJDK,
-                                      "-inpath", kotlinInPath + ";" + inPath,
+                                      "-inpath", kotlinInPath + pathSplit + inPath,
                                       "-aspectpath", aspectPath,
                                       "-d", dPath,
 //                        "-incremental",
                                       "-classpath", classpath,
                                       "-bootclasspath", android.bootClasspath.join(File.pathSeparator)]
                 new Main().run(javacArgs, handler)
-                println("kotlinInPath = ${kotlinInPath}")
+                println("kotlinInPath = ${kotlinInPath + pathSplit + inPath}")
                 File[] kotlinClassFiles = FileUtils.listFiles(new File(kotlinInPath), null, true)
                 File javacKotlinFile
                 for (File temp : kotlinClassFiles) {
