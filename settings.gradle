@@ -1,3 +1,4 @@
+include ':aopTest'
 apply from: "configs.gradle"
 
 include ':app'
