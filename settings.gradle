@@ -4,7 +4,7 @@ include ':app'
 switch (ext.environmentType) {
     case ext.EnvironmentType.TYPE_ASPECT:
     case ext.EnvironmentType.TYPE_ASPECT_PLUGIN:
-        include ':permissionSupport', ':permissionAnnotation', ':permissionCompiler'
+        include ':permissionSupport', ':permissionAnnotation', ':permissionCompiler', ':aopTest'
         break
     case ext.EnvironmentType.TYPE_LOCAL_MAVEN:
         include 'permissionPlugin'
