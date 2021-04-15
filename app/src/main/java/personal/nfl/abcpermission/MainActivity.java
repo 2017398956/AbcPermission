@@ -15,7 +15,6 @@ import java.lang.reflect.Field;
 
 import personal.nfl.abcpermission.bean.NewBean;
 import personal.nfl.abcpermission.kotlin.KotlinTest;
-import personal.nfl.aoptest.activity.AopTestActivity;
 import personal.nfl.permission.annotation.GetPermissions4AndroidX;
 import personal.nfl.permission.support.constant.ApplicationConstant;
 
@@ -63,7 +62,7 @@ public class MainActivity extends Activity {
             // Toast.makeText(this, readContacts(), Toast.LENGTH_SHORT).show();
 //            new KotlinTest().test(this);
 //            new PermissionTest().test(this);
-            startActivity(new Intent(this , AopTestActivity.class));
+            // startActivity(new Intent(this , AopTestActivity.class));
         } else if (view.getId() == R.id.bn_file) {
 //            readFile();
 //            Cursor cursor = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,
