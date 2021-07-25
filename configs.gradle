@@ -16,4 +16,9 @@ ext {
     environmentType = EnvironmentType.TYPE_ASPECT_PLUGIN
     aspectPluginVersion = "2.4"
     abcPermissionPluginVersion = "1.7.1_6"
+
+    compileSdkVersion = 30
+    buildToolsVersion = "30.0.2"
+    minSdkVersion = 14
+    targetSdkVersion = 30
 }
