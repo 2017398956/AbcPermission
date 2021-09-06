@@ -48,11 +48,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    // 可优化 transformClassDexBuilderForDebug 的时间
-    dexOptions {
-        preDexLibraries true
-        maxProcessCount 8
-    }
+
     compileOptions {
         targetCompatibility JavaVersion.VERSION_1_8
         sourceCompatibility JavaVersion.VERSION_1_8
