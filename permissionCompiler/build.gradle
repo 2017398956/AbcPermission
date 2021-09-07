@@ -26,16 +26,10 @@ dependencies {
 publishing {
 
     publications {
-        release(MavenPublication) {
+        myLibrary(MavenPublication) {
             from components.java
             groupId = 'com.github.2017398956'
             artifactId = 'permissionCompiler'
-            version = '1.0'
-        }
-        debug(MavenPublication) {
-            from components.java
-            groupId = 'com.github.2017398956'
-            artifactId = 'permissionCompiler-debug'
             version = '1.0'
         }
     }
