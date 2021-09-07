@@ -67,7 +67,7 @@ afterEvaluate {
 
         repositories {
             maven {
-                name = 'permissionAnnotation'
+                name = 'permissionSupport'
                 // url = layout.buildDirectory.dir("repo")
                 url = "../repo"
             }

@@ -81,7 +81,7 @@ switch (rootProject.ext.environmentType) {
             kapt project(':permissionCompiler')
             implementation project(':permissionSupport')
             // 仅在非插件模式下使用 aspectj
-            implementation 'org.aspectj:aspectjrt:1.9.6'
+            implementation "org.aspectj:aspectjrt:${rootProject.ext.aspectjrtVersion}"
         }
         File aopTemp = new File(project.buildFile.parentFile.absolutePath + "${File.separator}src${File.separator}main${File.separator}java${File.separator}AopTemp.java")
         if (aopTemp.exists()){
