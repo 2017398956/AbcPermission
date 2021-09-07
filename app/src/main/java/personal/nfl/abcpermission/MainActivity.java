@@ -64,7 +64,7 @@ public class MainActivity extends Activity {
 //            new PermissionTest().test(this);
             // startActivity(new Intent(this , AopTestActivity.class));
         } else if (view.getId() == R.id.bn_file) {
-//            readFile();
+            readFile();
 //            Cursor cursor = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,
 //                    null, null, null, null);
 //            int a = Integer.parseInt("sdfa") ;
