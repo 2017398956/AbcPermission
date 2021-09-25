@@ -117,5 +117,7 @@ public class MyApplication extends Application {
         });
 
         MultiDex.install(this);
+        Log.i("NFL" , "===========" +getString(R.string.app_name)) ;
+        Log.i("NFL" , "===========" +getString(personal.nfl.permission.support.R.string.app_name)) ;
     }
 }
