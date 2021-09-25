@@ -18,5 +18,4 @@ switch (ext.environmentType) {
         break
     case ext.EnvironmentType.TYPE_HUJIANG_LOCAL_JAR: break
 }
-
 rootProject.name = 'AbcPermission'

@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+// apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 // EnvironmentType.TYPE_ASPECT 状态时用到
 import org.apache.commons.io.FileUtils
@@ -27,12 +27,13 @@ kapt {
 }
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
     // debug 版本不要动态修改版本号，会拖慢编译效率
     defaultConfig {
         applicationId "personal.nfl.abcpermission"
-        minSdkVersion 14
-        targetSdkVersion 29
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -47,14 +48,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    // 可优化 transformClassDexBuilderForDebug 的时间
-    dexOptions {
-        preDexLibraries true
-        maxProcessCount 8
-    }
+
     compileOptions {
         targetCompatibility JavaVersion.VERSION_1_8
         sourceCompatibility JavaVersion.VERSION_1_8
+    }
+    buildFeatures{
+        viewBinding = true
     }
 }
 
@@ -68,20 +68,20 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlin_version}"
     // implementation "org.jetbrains.kotlin:kotlin-annotation-processing:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-annotation-processing-runtime:$kotlin_version"
-    implementation project(':aopTest')
 }
 
 switch (rootProject.ext.environmentType) {
 
     case rootProject.ext.EnvironmentType.TYPE_ASPECT:
         dependencies {
+            implementation project(':aopTest')
             implementation project(':permissionAnnotation')
             // 这里必须用 annotationProcessor 或 kapt
             // annotationProcessor project(':permissionCompiler')
             kapt project(':permissionCompiler')
             implementation project(':permissionSupport')
             // 仅在非插件模式下使用 aspectj
-            implementation 'org.aspectj:aspectjrt:1.9.6'
+            implementation "org.aspectj:aspectjrt:${rootProject.ext.aspectjrtVersion}"
         }
         File aopTemp = new File(project.buildFile.parentFile.absolutePath + "${File.separator}src${File.separator}main${File.separator}java${File.separator}AopTemp.java")
         if (aopTemp.exists()){
@@ -205,6 +205,7 @@ switch (rootProject.ext.environmentType) {
     case rootProject.ext.EnvironmentType.TYPE_ASPECT_PLUGIN:
         apply plugin: 'AspectPlugin'
         dependencies {
+            implementation project(':aopTest')
             implementation project(':permissionAnnotation')
             // 这里必须用 annotationProcessor 或 kapt
             // annotationProcessor project(':permissionCompiler')
