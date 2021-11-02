@@ -68,7 +68,15 @@ public class MainActivity extends Activity {
 //            Cursor cursor = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,
 //                    null, null, null, null);
 //            int a = Integer.parseInt("sdfa") ;
+        }else if (view.getId() == R.id.bn_location){
+            getLocation() ;
         }
+    }
+
+    @GetPermissions4AndroidX({Manifest.permission.ACCESS_FINE_LOCATION})
+    private String getLocation(){
+        Toast.makeText(ApplicationConstant.application, "getLocation", Toast.LENGTH_SHORT).show();
+        return "shang hai city" ;
     }
 
     @GetPermissions4AndroidX({Manifest.permission.READ_CONTACTS,Manifest.permission.READ_PHONE_STATE})
