@@ -28,7 +28,6 @@ kapt {
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
     // debug 版本不要动态修改版本号，会拖慢编译效率
     defaultConfig {
         applicationId "personal.nfl.abcpermission"
@@ -60,6 +59,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     testImplementation 'junit:junit:4.13.2'

@@ -1,1 +1,0 @@
-public class AopTemp {int a = -1770056342;}
