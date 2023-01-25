@@ -3,8 +3,9 @@ package personal.nfl.abcpermission;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,7 +15,6 @@ import android.widget.Toast;
 import java.lang.reflect.Field;
 
 import personal.nfl.abcpermission.bean.NewBean;
-import personal.nfl.abcpermission.kotlin.KotlinTest;
 import personal.nfl.permission.annotation.GetPermissions4AndroidX;
 import personal.nfl.permission.support.constant.ApplicationConstant;
 
@@ -23,10 +23,13 @@ import personal.nfl.permission.support.constant.ApplicationConstant;
  */
 public class MainActivity extends Activity {
 
+    private final String TAG = "MainActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         try {
             Class clazz = Class.forName(NewBean.class.getName());
             Field field = clazz.getDeclaredField("company");
@@ -38,23 +41,13 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this) ;
-        TextView textView = new TextView(this) ;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        TextView textView = new TextView(this);
         textView.setText("rtyuio");
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                readFile();
-            }
-        });
-        builder.setTitle("1234567").setPositiveButton("权限测试", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        textView.setOnClickListener(v -> readFile());
+        builder.setTitle("1234567").setPositiveButton("权限测试", (dialog, which) -> {
 
-            }
         }).setView(textView).create().show();
-
-
     }
 
     public void onClick(View view) {
@@ -68,18 +61,20 @@ public class MainActivity extends Activity {
 //            Cursor cursor = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,
 //                    null, null, null, null);
 //            int a = Integer.parseInt("sdfa") ;
-        }else if (view.getId() == R.id.bn_location){
-            getLocation() ;
+        } else if (view.getId() == R.id.bn_location) {
+            getLocation();
+        } else if (view.getId() == R.id.bn_clipboard) {
+            getClipboardContents();
         }
     }
 
     @GetPermissions4AndroidX({Manifest.permission.ACCESS_FINE_LOCATION})
-    private String getLocation(){
+    private String getLocation() {
         Toast.makeText(ApplicationConstant.application, "getLocation", Toast.LENGTH_SHORT).show();
-        return "shang hai city" ;
+        return "shang hai city";
     }
 
-    @GetPermissions4AndroidX({Manifest.permission.READ_CONTACTS,Manifest.permission.READ_PHONE_STATE})
+    @GetPermissions4AndroidX({Manifest.permission.READ_CONTACTS, Manifest.permission.READ_PHONE_STATE})
     private String readContacts() {
         Toast.makeText(ApplicationConstant.application, "readContacts", Toast.LENGTH_SHORT).show();
         // startActivity(new Intent(this, MainActivity.class));
@@ -90,6 +85,20 @@ public class MainActivity extends Activity {
     private void readFile() {
         Toast.makeText(ApplicationConstant.application, "readFile", Toast.LENGTH_SHORT).show();
         return;
+    }
+
+    private void getClipboardContents() {
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clipData = clipboard.getPrimaryClip();
+        ClipData.Item item;
+        if (clipData != null && clipData.getItemCount() > 0) {
+            for (int i = 0; i < clipData.getItemCount(); i++) {
+                item = clipData.getItemAt(i);
+                CharSequence text = item.getText();
+                String pasteString = text.toString();
+                Log.d(TAG, "getFromClipboard text=" + pasteString);
+            }
+        }
     }
 
 }
