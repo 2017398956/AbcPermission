@@ -4,7 +4,7 @@
 buildscript {
     // buildscript 中的代码会优先外面的代码执行
     apply from: "configs.gradle"
-    ext.kotlin_version = '1.6.21'
+    ext.kotlin_version = '1.8.0'
     repositories {
         maven { url 'https://jitpack.io' }
         maven { url 'https://maven.aliyun.com/repository/public' }
