@@ -20,8 +20,8 @@ ext {
     abcPermissionPluginVersion = "1.7.2"
     aspectjrtVersion="1.9.6"
 
-    compileSdkVersion = 30
-    buildToolsVersion = "30.0.2"
+    compileSdkVersion = 33
+    buildToolsVersion = "33.0.1"
     minSdkVersion = 14
-    targetSdkVersion = 30
+    targetSdkVersion = 33
 }
