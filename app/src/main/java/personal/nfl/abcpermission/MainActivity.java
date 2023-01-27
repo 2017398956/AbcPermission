@@ -57,7 +57,12 @@ public class MainActivity extends Activity {
 
     public void onClick(View view) {
         if (view.getId() == R.id.bn_contact) {
-             Toast.makeText(this, readContacts(), Toast.LENGTH_SHORT).show();
+            /**
+             * FIXME:这里的 Toast 会直接弹出，不会等待权限申请成功后才展示。由于首次还未授予权限，所以展示的内容为:
+             *  start read contacts and result:null
+             * TODO:这里有个 bug 这样使用会导致权限判断逻辑不能正常执行，而直接调用 readContacts 是可以的
+             */
+             Toast.makeText(this, "start read contacts and result:" + readContacts(), Toast.LENGTH_SHORT).show();
 //            new KotlinTest().test(this);
 //            new PermissionTest().test(this);
             // startActivity(new Intent(this , AopTestActivity.class));
