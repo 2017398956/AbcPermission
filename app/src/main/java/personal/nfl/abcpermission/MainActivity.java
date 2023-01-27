@@ -43,16 +43,21 @@ public class MainActivity extends Activity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         TextView textView = new TextView(this);
-        textView.setText("rtyuio");
+        textView.setPadding(10,10,10,10);
+        textView.setBackgroundResource(R.color.test);
+        textView.setText("test read file.");
         textView.setOnClickListener(v -> readFile());
-        builder.setTitle("1234567").setPositiveButton("权限测试", (dialog, which) -> {
+        AlertDialog alertDialog = builder.setTitle("1234567").setPositiveButton("权限测试", (dialog, which) -> {
 
-        }).setView(textView).create().show();
+        }).setView(textView).create();
+        if (false){
+            alertDialog.show();
+        }
     }
 
     public void onClick(View view) {
         if (view.getId() == R.id.bn_contact) {
-            // Toast.makeText(this, readContacts(), Toast.LENGTH_SHORT).show();
+             Toast.makeText(this, readContacts(), Toast.LENGTH_SHORT).show();
 //            new KotlinTest().test(this);
 //            new PermissionTest().test(this);
             // startActivity(new Intent(this , AopTestActivity.class));
@@ -76,9 +81,9 @@ public class MainActivity extends Activity {
 
     @GetPermissions4AndroidX({Manifest.permission.READ_CONTACTS, Manifest.permission.READ_PHONE_STATE})
     private String readContacts() {
-        Toast.makeText(ApplicationConstant.application, "readContacts", Toast.LENGTH_SHORT).show();
+        Toast.makeText(ApplicationConstant.application, "readContacts function", Toast.LENGTH_SHORT).show();
         // startActivity(new Intent(this, MainActivity.class));
-        return "readContacts";
+        return "readContacts result";
     }
 
     @GetPermissions4AndroidX({Manifest.permission.WRITE_EXTERNAL_STORAGE})
