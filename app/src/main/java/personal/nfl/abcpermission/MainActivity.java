@@ -6,12 +6,23 @@ import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.lang.reflect.Field;
 
 import personal.nfl.abcpermission.bean.NewBean;
@@ -29,6 +40,14 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            //判断是否有管理外部存储的权限
+            if (!Environment.isExternalStorageManager()) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                intent.setData(Uri.fromParts("package", getPackageName(), null));
+                startActivity(intent);
+            }
+        }
 
         try {
             Class clazz = Class.forName(NewBean.class.getName());
@@ -93,6 +112,17 @@ public class MainActivity extends Activity {
 
     @GetPermissions4AndroidX({Manifest.permission.WRITE_EXTERNAL_STORAGE})
     private void readFile() {
+        String filePath = "/sdcard/Download/adb.txt";
+        File file = new File(filePath);
+        Log.e("NFL", "filePath:" + file.getAbsolutePath());
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+            bufferedReader.readLine();
+            Log.e("NFL", "readLine:" + bufferedReader.readLine());
+        } catch (Exception e) {
+            Log.e("NFL", "exception:" + e.getMessage());
+            throw new RuntimeException(e);
+        }
         Toast.makeText(ApplicationConstant.application, "readFile", Toast.LENGTH_SHORT).show();
         return;
     }
