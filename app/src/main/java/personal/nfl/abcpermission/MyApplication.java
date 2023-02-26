@@ -28,7 +28,9 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Log.e("NFL", getDataDir().getAbsolutePath());
+        }
         AbcPermission.install(this);
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override

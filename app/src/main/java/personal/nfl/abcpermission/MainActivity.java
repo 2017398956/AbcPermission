@@ -45,7 +45,7 @@ public class MainActivity extends Activity {
             if (!Environment.isExternalStorageManager()) {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
                 intent.setData(Uri.fromParts("package", getPackageName(), null));
-                startActivity(intent);
+                // startActivity(intent);
             }
         }
 
