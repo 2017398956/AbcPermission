@@ -38,6 +38,7 @@ import personal.nfl.permission.util.CodeCreator;
 @AutoService(Processor.class)
 public class GetPermissions4AndroidXProcessor extends AbstractProcessor {
 
+    private static final String TAG = "GetPermissions4AndroidXProcessor";
     private Filer mFiler; //文件相关的辅助类
     private Elements mElementUtils; //元素相关的辅助类
     private Messager mMessager; //日志相关的辅助类
@@ -127,25 +128,30 @@ public class GetPermissions4AndroidXProcessor extends AbstractProcessor {
     }
 
 
+    private int classFileCount = 0;
     /**
      * create the real file to be compiled
      */
-    private void createFile(String packageName, String enclosingName, String[] permissions, String methodName, String returnType, boolean isKotlinFile) {
+    private synchronized void createFile(String packageName, String enclosingName, String[] permissions, String methodName, String returnType, boolean isKotlinFile) {
         Calendar calendar = Calendar.getInstance();
         String classPostfix = "" + (calendar.get(Calendar.MINUTE) + 100) + (calendar.get(Calendar.SECOND) + 100) + (calendar.get(Calendar.MILLISECOND) + 1000);
-        isKotlinFile = false ;
+        classFileCount++;
+        classPostfix += "_" + classFileCount;
+        String classFilePath = packageName + ".AutoCreate" + classPostfix;
+        System.out.println("attempt to create file:" + classFilePath);
+        isKotlinFile = false;
         if (isKotlinFile) {
             File kotlinFile = new File(kaptKotlinPath + File.separator
                     + packageName.replace(".", "\\")
                     + "\\AutoCreate" + classPostfix + ".kt");
-            kotlinFile.getParentFile().mkdirs() ;
+            kotlinFile.getParentFile().mkdirs();
             FileWriter fileWriter = null;
             try {
                 fileWriter = new FileWriter(kotlinFile);
                 if ("void".equals(returnType)) {
-                    fileWriter.write(CodeCreator.brewCode(packageName, enclosingName, permissions, classPostfix, methodName, returnType, true , isKotlinFile));
+                    fileWriter.write(CodeCreator.brewCode(packageName, enclosingName, permissions, classPostfix, methodName, returnType, true, isKotlinFile));
                 } else {
-                    fileWriter.write(CodeCreator.brewCodeNoCallback(packageName, enclosingName, permissions, classPostfix, methodName, returnType, true , isKotlinFile));
+                    fileWriter.write(CodeCreator.brewCodeNoCallback(packageName, enclosingName, permissions, classPostfix, methodName, returnType, true, isKotlinFile));
                 }
                 fileWriter.flush();
                 fileWriter.close();
@@ -155,7 +161,7 @@ public class GetPermissions4AndroidXProcessor extends AbstractProcessor {
         } else {
             // java 文件
             try {
-                JavaFileObject jfo = mFiler.createSourceFile(packageName + ".AutoCreate" + classPostfix, new Element[]{});
+                JavaFileObject jfo = mFiler.createSourceFile(classFilePath, new Element[]{});
                 Writer writer = jfo.openWriter();
                 if ("void".equals(returnType)) {
                     writer.write(CodeCreator.brewCode(packageName, enclosingName, permissions, classPostfix, methodName, returnType, true));

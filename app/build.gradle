@@ -52,6 +52,14 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
         sourceCompatibility JavaVersion.VERSION_1_8
     }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    kotlin {
+        jvmToolchain {
+            languageVersion.set(JavaLanguageVersion.of(8))
+        }
+    }
     buildFeatures{
         viewBinding = true
     }
@@ -68,7 +76,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlin_version}"
     // implementation "org.jetbrains.kotlin:kotlin-annotation-processing:$kotlin_version"
-    implementation "org.jetbrains.kotlin:kotlin-annotation-processing-runtime:$kotlin_version"
+//    implementation "org.jetbrains.kotlin:kotlin-annotation-processing-runtime:$kotlin_version"
 }
 
 switch (rootProject.ext.environmentType) {

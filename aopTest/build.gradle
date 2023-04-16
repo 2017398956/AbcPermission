@@ -5,6 +5,7 @@ plugins {
 }
 
 android {
+    namespace 'personal.nfl.aoptest'
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
