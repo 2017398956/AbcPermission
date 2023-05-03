@@ -32,6 +32,7 @@ version = '0.2.0'
 publishing {
     publications {
         myLibrary(MavenPublication) {
+            // artifactId = 'permissionPlugin'
             from components.java
         }
     }

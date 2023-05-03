@@ -1,21 +1,27 @@
 apply from: "configs.gradle"
 
-include ':app'
 switch (ext.environmentType) {
     case ext.EnvironmentType.TYPE_ASPECT:
     case ext.EnvironmentType.TYPE_ASPECT_PLUGIN:
+        include ':app'
         include ':permissionSupport', ':permissionAnnotation', ':permissionCompiler', ':aopTest'
         break
     case ext.EnvironmentType.TYPE_LOCAL_MAVEN:
         include 'permissionPlugin'
         break
-    case ext.EnvironmentType.TYPE_ABC_PERMISSION_PLUGIN: break
+    case ext.EnvironmentType.TYPE_ABC_PERMISSION_PLUGIN:
+        include ':app'
+        break
     case ext.EnvironmentType.TYPE_HUJIANG:
+        include ':app'
         break
     case ext.EnvironmentType.TYPE_HUJIANG_LOCAL:
+        include ':app'
         include ':gradle_plugin_android_aspectjx'
         include ':gradle_plugin_android_aspectjx:aspectjx'
         break
-    case ext.EnvironmentType.TYPE_HUJIANG_LOCAL_JAR: break
+    case ext.EnvironmentType.TYPE_HUJIANG_LOCAL_JAR:
+        include ':app'
+        break
 }
 rootProject.name = 'AbcPermission'

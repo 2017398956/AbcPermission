@@ -16,7 +16,7 @@ ext {
             TYPE_HUJIANG_LOCAL_JAR    : 7
     ]
     environmentType = EnvironmentType.TYPE_ASPECT_PLUGIN
-    aspectPluginVersion = "2.4"
+    aspectPluginVersion = "2.5.1"
     abcPermissionPluginVersion = "1.7.2"
     aspectjrtVersion="1.9.6"
 
