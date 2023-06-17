@@ -72,6 +72,7 @@ public class MainActivity extends Activity {
         if (false){
             alertDialog.show();
         }
+//        testStackOverFlow();
     }
 
     public void onClick(View view) {
@@ -139,6 +140,10 @@ public class MainActivity extends Activity {
                 Log.d(TAG, "getFromClipboard text=" + pasteString);
             }
         }
+    }
+
+    private void testStackOverFlow(){
+        testStackOverFlow();
     }
 
 }
