@@ -1,9 +1,9 @@
 # AbcPermission
 
-[![Release Version](https://img.shields.io/badge/release-1.7.2_2-green.svg)](https://github.com/2017398956/AbcPermission/releases)
+[![Release Version](https://img.shields.io/badge/release-1.7.2_3-green.svg)](https://github.com/2017398956/AbcPermission/releases)
 
 **更新日志：**
-
+- **1.7.2_3** 支持AGP 8.0
 - **1.7.2_2** 支持AGP 7.0.2
 - **1.7.1** 优化代码
 - **1.7.0** 支持 Kotlin 和 java 混编

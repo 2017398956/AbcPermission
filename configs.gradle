@@ -17,7 +17,7 @@ ext {
     ]
     environmentType = EnvironmentType.TYPE_ASPECT_PLUGIN
     aspectPluginVersion = "2.5.1"
-    abcPermissionPluginVersion = "1.7.2"
+    abcPermissionPluginVersion = "1.7.2_3_2"
     aspectjrtVersion="1.9.6"
 
     compileSdkVersion = 33
