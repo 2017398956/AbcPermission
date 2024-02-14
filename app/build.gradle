@@ -27,7 +27,7 @@ kapt {
 }
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdk rootProject.ext.compileSdkVersion
     // debug 版本不要动态修改版本号，会拖慢编译效率
     defaultConfig {
         applicationId "personal.nfl.abcpermission"
